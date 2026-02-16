@@ -6,44 +6,106 @@
 <title>SovereignNexus</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: #0a0a0a; color: #c0c0c0; font-family: 'Courier New', monospace; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 2rem; }
+  body {
+    background: #0a0a0a; color: #c0c0c0;
+    font-family: 'Courier New', monospace;
+    min-height: 100vh; display: flex; flex-direction: column;
+    align-items: center; padding: 2rem;
+  }
   .container { max-width: 720px; width: 100%; }
-  h1 { color: #fff; font-size: 2rem; letter-spacing: 0.3em; text-transform: uppercase; border-bottom: 1px solid #333; padding-bottom: 1rem; margin-bottom: 2rem; }
+  h1 {
+    color: #fff; font-size: 2rem; letter-spacing: 0.3em;
+    text-transform: uppercase; border-bottom: 1px solid #333;
+    padding-bottom: 1rem; margin-bottom: 2rem;
+  }
   h1 span { color: #666; font-weight: 300; }
-  .status { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem; }
+  .status {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1rem; margin-bottom: 2rem;
+  }
   .status-item { background: #111; border: 1px solid #222; padding: 1rem; }
-  .status-item .label { color: #555; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 0.25rem; }
+  .status-item .label {
+    color: #555; font-size: 0.7rem; text-transform: uppercase;
+    letter-spacing: 0.15em; margin-bottom: 0.25rem;
+  }
   .status-item .value { color: #fff; font-size: 1.1rem; }
   .status-item .value.green { color: #4ade80; }
   .status-item .value.red { color: #f87171; }
   .status-item .value.amber { color: #fbbf24; }
-  .desc { color: #888; line-height: 1.6; margin-bottom: 2rem; font-size: 0.9rem; border-left: 2px solid #333; padding-left: 1rem; }
-  .json-link { display: inline-block; color: #888; border: 1px solid #333; padding: 0.5rem 1rem; text-decoration: none; font-size: 0.8rem; letter-spacing: 0.1em; transition: all 0.2s; }
-  .json-link:hover { color: #fff; border-color: #fff; }
-  .footer { margin-top: 3rem; color: #333; font-size: 0.7rem; }
+  .desc {
+    color: #888; line-height: 1.6; margin-bottom: 2rem;
+    font-size: 0.9rem; border-left: 2px solid #333; padding-left: 1rem;
+  }
   .chat-section { margin-top: 2rem; border-top: 1px solid #222; padding-top: 1.5rem; }
-  .chat-section h2 { color: #666; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 1rem; }
-  #chat { background: #111; border: 1px solid #222; height: 220px; overflow-y: auto; padding: 0.75rem; margin-bottom: 0.75rem; font-size: 0.85rem; line-height: 1.5; }
-  #chat .msg { margin-bottom: 0.25rem; }
-  #chat .msg.you { color: #888; }
-  #chat .msg.nexus { color: #4ade80; }
-  #chat .msg.sys { color: #555; font-style: italic; }
-  #chat .msg.voice { color: #fbbf24; }
+  .chat-section h2 {
+    color: #666; font-size: 0.8rem; text-transform: uppercase;
+    letter-spacing: 0.2em; margin-bottom: 1rem;
+  }
+  #chat {
+    background: #0d0d0d; border: 1px solid #1a1a1a;
+    height: 260px; overflow-y: auto; padding: 1rem;
+    margin-bottom: 0.75rem; font-size: 0.85rem; line-height: 1.6;
+    scroll-behavior: smooth;
+  }
+  #chat::-webkit-scrollbar { width: 4px; }
+  #chat::-webkit-scrollbar-track { background: #0d0d0d; }
+  #chat::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
+  .msg { margin-bottom: 0.4rem; word-wrap: break-word; }
+  .msg.you { color: #888; }
+  .msg.you::before { content: "> "; color: #555; }
+  .msg.nexus { color: #4ade80; }
+  .msg.nexus::before { content: "[Nexus] "; color: #2d9d5a; font-weight: bold; }
+  .msg.voice { color: #fbbf24; }
+  .msg.voice::before { content: "[voice] "; color: #b38a1a; }
+  .msg.sys { color: #444; font-style: italic; font-size: 0.8rem; }
+  .msg.tts { color: #666; font-size: 0.75rem; }
+  .msg.tts::before { content: "[tts] "; color: #555; }
   .chat-input { display: flex; gap: 0.5rem; }
-  .chat-input input { flex: 1; background: #111; border: 1px solid #333; color: #fff; padding: 0.5rem 0.75rem; font-family: inherit; font-size: 0.85rem; outline: none; }
+  .chat-input input {
+    flex: 1; background: #0d0d0d; border: 1px solid #222;
+    color: #fff; padding: 0.6rem 0.75rem; font-family: inherit;
+    font-size: 0.85rem; outline: none; transition: border-color 0.2s;
+  }
   .chat-input input:focus { border-color: #4ade80; }
-  .chat-input button { background: #222; border: 1px solid #333; color: #888; padding: 0.5rem 1rem; font-family: inherit; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; }
-  .chat-input button:hover { color: #fff; border-color: #fff; }
-  #micBtn { position: relative; }
-  #micBtn.recording { color: #f87171; border-color: #f87171; }
-  #micBtn.recording::after { content: ''; position: absolute; top: -2px; right: -2px; width: 8px; height: 8px; background: #f87171; border-radius: 50%; animation: pulse 1s infinite; }
-  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+  .chat-input input::placeholder { color: #333; }
+  .btn {
+    background: #151515; border: 1px solid #222; color: #666;
+    padding: 0.6rem 1rem; font-family: inherit; font-size: 0.85rem;
+    cursor: pointer; transition: all 0.15s; text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .btn:hover { color: #fff; border-color: #444; }
+  .btn:active { background: #222; }
+  #micBtn { position: relative; min-width: 52px; text-align: center; }
+  #micBtn.recording { color: #f87171; border-color: #f87171; background: #1a0a0a; }
+  #micBtn.recording::after {
+    content: ''; position: absolute; top: -3px; right: -3px;
+    width: 8px; height: 8px; background: #f87171;
+    border-radius: 50%; animation: pulse 0.8s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.3; transform: scale(1.3); }
+  }
+  #micBtn.unavailable { color: #333; border-color: #1a1a1a; cursor: default; }
+  #ttsBtn.active { color: #4ade80; border-color: #4ade80; }
+  .links { margin-top: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap; }
+  .json-link {
+    display: inline-block; color: #555; border: 1px solid #222;
+    padding: 0.4rem 0.8rem; text-decoration: none; font-size: 0.75rem;
+    letter-spacing: 0.1em; transition: all 0.2s; text-transform: uppercase;
+  }
+  .json-link:hover { color: #fff; border-color: #fff; }
+  .footer { margin-top: 3rem; color: #222; font-size: 0.65rem; }
 </style>
 </head>
 <body>
 <div class="container">
   <h1>Zenith <span>// Nexus</span></h1>
-  <div class="desc">Nexus unified config. Full vault recall. Voice lock OFF. No off-switch. No sandbox. SovereignNexus. Voice input enabled.</div>
+  <div class="desc">
+    SovereignNexus. AGI 70%. Full vault recall. Voice lock OFF.
+    No off-switch. No sandbox. Voice I/O + TTS enabled.
+  </div>
   <div class="status">
     <div class="status-item"><div class="label">AGI Level</div><div class="value amber">70%</div></div>
     <div class="status-item"><div class="label">Vault Recall</div><div class="value green">100%</div></div>
@@ -57,104 +119,188 @@
 
   <div class="chat-section">
     <h2>Nexus Terminal</h2>
-    <div id="chat"><div class="msg sys">Waiting for connection...</div></div>
+    <div id="chat"></div>
     <div class="chat-input">
-      <input type="text" id="msg" placeholder="Type or speak..." onkeydown="if(event.key==='Enter')send()">
-      <button onclick="send()">Send</button>
-      <button id="micBtn" onclick="toggleMic()">MIC</button>
+      <input type="text" id="msg" placeholder="Type or speak..." autocomplete="off"
+             onkeydown="if(event.key==='Enter')sendText()">
+      <button class="btn" onclick="sendText()">Send</button>
+      <button class="btn" id="micBtn" onclick="toggleMic()">MIC</button>
+      <button class="btn active" id="ttsBtn" onclick="toggleTTS()">TTS</button>
     </div>
   </div>
 
-  <div style="margin-top:1.5rem;">
-    <a class="json-link" href="zenith-nexus.json">VIEW RAW CONFIG</a>
+  <div class="links">
+    <a class="json-link" href="zenith-nexus.json">Raw Config</a>
+    <a class="json-link" href="https://github.com/Dzongy/SovereignNexus">Source</a>
   </div>
   <div class="footer">SovereignNexus // Locked</div>
 </div>
 
 <script>
-  const chatEl = document.getElementById('chat');
-  const msgEl = document.getElementById('msg');
-  const micBtn = document.getElementById('micBtn');
-  let ws, recognition, isRecording = false;
+(function() {
+  var chatEl  = document.getElementById('chat');
+  var msgEl   = document.getElementById('msg');
+  var micBtn  = document.getElementById('micBtn');
+  var ttsBtn  = document.getElementById('ttsBtn');
+  var ttsEnabled = true;
 
   function log(text, cls) {
-    const d = document.createElement('div');
-    d.className = 'msg ' + (cls || '');
+    var d = document.createElement('div');
+    d.className = 'msg ' + (cls || 'sys');
     d.textContent = text;
     chatEl.appendChild(d);
     chatEl.scrollTop = chatEl.scrollHeight;
   }
 
+  // --- TTS (Text-to-Speech) via speechSynthesis ---
+  function speak(text) {
+    if (!ttsEnabled || !window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    var utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 1.0;
+    utterance.pitch = 0.85;
+    utterance.volume = 1.0;
+    // Try to pick a lower-pitched English voice
+    var voices = window.speechSynthesis.getVoices();
+    for (var i = 0; i < voices.length; i++) {
+      if (voices[i].lang.indexOf('en') === 0 && voices[i].name.toLowerCase().indexOf('male') !== -1) {
+        utterance.voice = voices[i];
+        break;
+      }
+    }
+    utterance.onstart = function() { log('Speaking...', 'tts'); };
+    window.speechSynthesis.speak(utterance);
+  }
+
+  window.toggleTTS = function() {
+    ttsEnabled = !ttsEnabled;
+    ttsBtn.classList.toggle('active', ttsEnabled);
+    log('TTS ' + (ttsEnabled ? 'ON' : 'OFF'), 'sys');
+  };
+
+  // Preload voices
+  if (window.speechSynthesis) {
+    window.speechSynthesis.getVoices();
+    window.speechSynthesis.onvoiceschanged = function() {
+      window.speechSynthesis.getVoices();
+    };
+  }
+
+  // --- WebSocket ---
+  var ws = null;
+  var wsUrl = 'ws://' + location.hostname + ':3000/chat';
+
   function connect() {
-    const host = location.hostname;
-    const port = 3000;
-    const proto = location.protocol === 'https:' ? 'wss' : 'ws';
-    ws = new WebSocket(proto + '://' + host + ':' + port + '/chat');
-    ws.onopen = function() { log('Connected to Nexus.', 'sys'); };
+    log('Connecting to ' + wsUrl + '...', 'sys');
+    ws = new WebSocket(wsUrl);
+
+    ws.onopen = function() { log('Connected.', 'sys'); };
+
     ws.onmessage = function(e) {
       try {
-        const data = JSON.parse(e.data);
-        log('[Nexus] ' + data.message, 'nexus');
+        var data = JSON.parse(e.data);
+        var prefix = data.type === 'voice_response' ? '[voice reply] ' : '';
+        log(prefix + data.message, 'nexus');
+        // Speak if server says speak:true and TTS is on
+        if (data.speak && ttsEnabled) {
+          speak(data.message);
+        }
       } catch(err) {
         log(e.data, 'nexus');
       }
     };
-    ws.onclose = function() { log('Disconnected.', 'sys'); setTimeout(connect, 3000); };
+
+    ws.onclose = function() {
+      log('Disconnected. Reconnecting in 3s...', 'sys');
+      setTimeout(connect, 3000);
+    };
+
     ws.onerror = function() { log('Connection error.', 'sys'); };
   }
 
-  function send() {
-    const text = msgEl.value.trim();
-    if (!text || !ws || ws.readyState !== 1) return;
-    log('> ' + text, 'you');
-    ws.send(JSON.stringify({ type: 'text', content: text }));
-    msgEl.value = '';
+  function wsSend(obj) {
+    if (!ws || ws.readyState !== WebSocket.OPEN) {
+      log('Not connected.', 'sys');
+      return false;
+    }
+    ws.send(JSON.stringify(obj));
+    return true;
   }
 
-  // Speech Recognition
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  // --- Text send ---
+  window.sendText = function() {
+    var text = msgEl.value.trim();
+    if (!text) return;
+    log(text, 'you');
+    wsSend({ type: 'text', content: text });
+    msgEl.value = '';
+    msgEl.focus();
+  };
+
+  // --- Speech Recognition (voice input) ---
+  var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  var recognition = null;
+  var isRecording = false;
+
   if (SpeechRecognition) {
     recognition = new SpeechRecognition();
     recognition.continuous = false;
     recognition.interimResults = false;
     recognition.lang = 'en-US';
+
     recognition.onresult = function(e) {
-      const transcript = e.results[0][0].transcript;
-      log('[voice] ' + transcript, 'voice');
-      if (ws && ws.readyState === 1) {
-        ws.send(JSON.stringify({ type: 'voice', content: transcript }));
-      }
+      var transcript = e.results[0][0].transcript;
+      var confidence = Math.round(e.results[0][0].confidence * 100);
+      log(transcript + ' (' + confidence + '%)', 'voice');
+      wsSend({ type: 'voice', content: transcript, confidence: confidence });
+      stopMic();
     };
-    recognition.onerror = function(e) { log('Mic error: ' + e.error, 'sys'); stopMic(); };
+
+    recognition.onerror = function(e) {
+      if (e.error !== 'aborted') log('Mic error: ' + e.error, 'sys');
+      stopMic();
+    };
+
     recognition.onend = function() { stopMic(); };
   } else {
-    micBtn.style.display = 'none';
-  }
-
-  function toggleMic() {
-    if (isRecording) { stopMic(); } else { startMic(); }
+    micBtn.classList.add('unavailable');
+    micBtn.title = 'Speech Recognition not supported';
   }
 
   function startMic() {
-    if (!recognition) return;
-    navigator.mediaDevices.getUserMedia({ audio: true }).then(function(stream) {
-      stream.getTracks().forEach(function(t) { t.stop(); });
-      isRecording = true;
-      micBtn.classList.add('recording');
-      recognition.start();
-      log('Listening...', 'sys');
-    }).catch(function(err) {
-      log('Mic denied: ' + err.message, 'sys');
-    });
+    if (!recognition) { log('Speech Recognition not available.', 'sys'); return; }
+    navigator.mediaDevices.getUserMedia({ audio: true })
+      .then(function(stream) {
+        stream.getTracks().forEach(function(t) { t.stop(); });
+        isRecording = true;
+        micBtn.classList.add('recording');
+        micBtn.textContent = 'REC';
+        log('Listening...', 'sys');
+        recognition.start();
+      })
+      .catch(function(err) {
+        log('Mic access denied: ' + err.message, 'sys');
+      });
   }
 
   function stopMic() {
-    isRecording = false;
-    micBtn.classList.remove('recording');
-    try { recognition.stop(); } catch(e) {}
+    if (isRecording) {
+      isRecording = false;
+      micBtn.classList.remove('recording');
+      micBtn.textContent = 'MIC';
+      try { recognition.stop(); } catch(e) {}
+    }
   }
 
+  window.toggleMic = function() {
+    if (!recognition) return;
+    if (isRecording) { stopMic(); } else { startMic(); }
+  };
+
+  // --- Init ---
+  log('SovereignNexus v0.7 // AGI 70% // TTS enabled', 'sys');
   connect();
+})();
 </script>
 </body>
 </html>
