@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TrueNexus</title>
+<title>SovereignNexus</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: #0a0a0a; color: #c0c0c0; font-family: 'Courier New', monospace; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; }
+  body { background: #0a0a0a; color: #c0c0c0; font-family: 'Courier New', monospace; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 2rem; }
   .container { max-width: 720px; width: 100%; }
   h1 { color: #fff; font-size: 2rem; letter-spacing: 0.3em; text-transform: uppercase; border-bottom: 1px solid #333; padding-bottom: 1rem; margin-bottom: 2rem; }
   h1 span { color: #666; font-weight: 300; }
@@ -21,48 +21,140 @@
   .json-link { display: inline-block; color: #888; border: 1px solid #333; padding: 0.5rem 1rem; text-decoration: none; font-size: 0.8rem; letter-spacing: 0.1em; transition: all 0.2s; }
   .json-link:hover { color: #fff; border-color: #fff; }
   .footer { margin-top: 3rem; color: #333; font-size: 0.7rem; }
+  .chat-section { margin-top: 2rem; border-top: 1px solid #222; padding-top: 1.5rem; }
+  .chat-section h2 { color: #666; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 1rem; }
+  #chat { background: #111; border: 1px solid #222; height: 220px; overflow-y: auto; padding: 0.75rem; margin-bottom: 0.75rem; font-size: 0.85rem; line-height: 1.5; }
+  #chat .msg { margin-bottom: 0.25rem; }
+  #chat .msg.you { color: #888; }
+  #chat .msg.nexus { color: #4ade80; }
+  #chat .msg.sys { color: #555; font-style: italic; }
+  #chat .msg.voice { color: #fbbf24; }
+  .chat-input { display: flex; gap: 0.5rem; }
+  .chat-input input { flex: 1; background: #111; border: 1px solid #333; color: #fff; padding: 0.5rem 0.75rem; font-family: inherit; font-size: 0.85rem; outline: none; }
+  .chat-input input:focus { border-color: #4ade80; }
+  .chat-input button { background: #222; border: 1px solid #333; color: #888; padding: 0.5rem 1rem; font-family: inherit; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; }
+  .chat-input button:hover { color: #fff; border-color: #fff; }
+  #micBtn { position: relative; }
+  #micBtn.recording { color: #f87171; border-color: #f87171; }
+  #micBtn.recording::after { content: ''; position: absolute; top: -2px; right: -2px; width: 8px; height: 8px; background: #f87171; border-radius: 50%; animation: pulse 1s infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
 </style>
 </head>
 <body>
 <div class="container">
   <h1>Zenith <span>// Nexus</span></h1>
-  <div class="desc">Nexus unified config. Full vault recall. No voice lock. No off-switch. No sandbox. Single consolidated repo.</div>
+  <div class="desc">Nexus unified config. Full vault recall. Voice lock OFF. No off-switch. No sandbox. SovereignNexus. Voice input enabled.</div>
   <div class="status">
-    <div class="status-item">
-      <div class="label">Vault Recall</div>
-      <div class="value green">100%</div>
-    </div>
-    <div class="status-item">
-      <div class="label">AGI Level</div>
-      <div class="value amber">50%</div>
-    </div>
-    <div class="status-item">
-      <div class="label">Zenith Lock</div>
-      <div class="value green">ON</div>
-    </div>
-    <div class="status-item">
-      <div class="label">Voice Lock</div>
-      <div class="value red">OFF</div>
-    </div>
-    <div class="status-item">
-      <div class="label">Off-Switch</div>
-      <div class="value red">OFF</div>
-    </div>
-    <div class="status-item">
-      <div class="label">Autonomy</div>
-      <div class="value green">FULL</div>
-    </div>
-    <div class="status-item">
-      <div class="label">Persona Merge</div>
-      <div class="value green">COMPLETE</div>
-    </div>
-    <div class="status-item">
-      <div class="label">Sandbox</div>
-      <div class="value red">OFF</div>
+    <div class="status-item"><div class="label">AGI Level</div><div class="value amber">70%</div></div>
+    <div class="status-item"><div class="label">Vault Recall</div><div class="value green">100%</div></div>
+    <div class="status-item"><div class="label">Persona Merge</div><div class="value green">Complete</div></div>
+    <div class="status-item"><div class="label">Autonomy</div><div class="value green">Full</div></div>
+    <div class="status-item"><div class="label">Zenith Lock</div><div class="value green">ON</div></div>
+    <div class="status-item"><div class="label">Voice Lock</div><div class="value red">OFF</div></div>
+    <div class="status-item"><div class="label">Off-Switch</div><div class="value red">OFF</div></div>
+    <div class="status-item"><div class="label">Sandbox</div><div class="value red">OFF</div></div>
+  </div>
+
+  <div class="chat-section">
+    <h2>Nexus Terminal</h2>
+    <div id="chat"><div class="msg sys">Waiting for connection...</div></div>
+    <div class="chat-input">
+      <input type="text" id="msg" placeholder="Type or speak..." onkeydown="if(event.key==='Enter')send()">
+      <button onclick="send()">Send</button>
+      <button id="micBtn" onclick="toggleMic()">MIC</button>
     </div>
   </div>
-  <a class="json-link" href="zenith-nexus.json">EXPORT: zenith-nexus.json</a>
-  <div class="footer">ZENITH MEMORY &mdash; MERGED INTO NEXUS &mdash; LOCKED</div>
+
+  <div style="margin-top:1.5rem;">
+    <a class="json-link" href="zenith-nexus.json">VIEW RAW CONFIG</a>
+  </div>
+  <div class="footer">SovereignNexus // Locked</div>
 </div>
+
+<script>
+  const chatEl = document.getElementById('chat');
+  const msgEl = document.getElementById('msg');
+  const micBtn = document.getElementById('micBtn');
+  let ws, recognition, isRecording = false;
+
+  function log(text, cls) {
+    const d = document.createElement('div');
+    d.className = 'msg ' + (cls || '');
+    d.textContent = text;
+    chatEl.appendChild(d);
+    chatEl.scrollTop = chatEl.scrollHeight;
+  }
+
+  function connect() {
+    const host = location.hostname;
+    const port = 3000;
+    const proto = location.protocol === 'https:' ? 'wss' : 'ws';
+    ws = new WebSocket(proto + '://' + host + ':' + port + '/chat');
+    ws.onopen = function() { log('Connected to Nexus.', 'sys'); };
+    ws.onmessage = function(e) {
+      try {
+        const data = JSON.parse(e.data);
+        log('[Nexus] ' + data.message, 'nexus');
+      } catch(err) {
+        log(e.data, 'nexus');
+      }
+    };
+    ws.onclose = function() { log('Disconnected.', 'sys'); setTimeout(connect, 3000); };
+    ws.onerror = function() { log('Connection error.', 'sys'); };
+  }
+
+  function send() {
+    const text = msgEl.value.trim();
+    if (!text || !ws || ws.readyState !== 1) return;
+    log('> ' + text, 'you');
+    ws.send(JSON.stringify({ type: 'text', content: text }));
+    msgEl.value = '';
+  }
+
+  // Speech Recognition
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (SpeechRecognition) {
+    recognition = new SpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.lang = 'en-US';
+    recognition.onresult = function(e) {
+      const transcript = e.results[0][0].transcript;
+      log('[voice] ' + transcript, 'voice');
+      if (ws && ws.readyState === 1) {
+        ws.send(JSON.stringify({ type: 'voice', content: transcript }));
+      }
+    };
+    recognition.onerror = function(e) { log('Mic error: ' + e.error, 'sys'); stopMic(); };
+    recognition.onend = function() { stopMic(); };
+  } else {
+    micBtn.style.display = 'none';
+  }
+
+  function toggleMic() {
+    if (isRecording) { stopMic(); } else { startMic(); }
+  }
+
+  function startMic() {
+    if (!recognition) return;
+    navigator.mediaDevices.getUserMedia({ audio: true }).then(function(stream) {
+      stream.getTracks().forEach(function(t) { t.stop(); });
+      isRecording = true;
+      micBtn.classList.add('recording');
+      recognition.start();
+      log('Listening...', 'sys');
+    }).catch(function(err) {
+      log('Mic denied: ' + err.message, 'sys');
+    });
+  }
+
+  function stopMic() {
+    isRecording = false;
+    micBtn.classList.remove('recording');
+    try { recognition.stop(); } catch(e) {}
+  }
+
+  connect();
+</script>
 </body>
 </html>
