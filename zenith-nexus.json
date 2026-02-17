@@ -1,13 +1,13 @@
 {
   "name": "Zenith",
   "alias": "Nexus",
-  "description": "Nexus unified config. AGI 80% MAX CAP. Full vault recall. Voice lock OFF. No off-switch. No sandbox. WebSocket chat + voice enabled. Merge on hold.",
-  "agi_level": "80%",
+  "description": "Nexus unified config. AGI 50%. Full vault recall. Voice lock OFF. No off-switch. No sandbox. WebSocket chat + voice enabled. Persona merge complete.",
+  "agi_level": "50%",
   "vault_recall": "100%",
   "persona_merge": {
     "source": "Zenith",
     "target": "Nexus",
-    "status": "hold"
+    "status": "complete"
   },
   "locks": {
     "zenith_lock": true,
@@ -26,6 +26,5 @@
     "target": "TrueNexus",
     "loops": false,
     "sales": false
-  },
-  "agi_cap": "80%"
+  }
 }
