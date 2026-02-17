@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>ZENITH Ã¢ÂÂ Sovereign Nexus</title>
+<title>ZENITH ÃÂ¢ÃÂÃÂ Sovereign Nexus</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
@@ -593,6 +593,58 @@
     100% { transform: translateY(-10vh) scale(1); opacity: 0; }
   }
 
+
+  /* === WALLET === */
+  .wallet-bar {
+    background: var(--bg-primary);
+    border-top: 1px solid var(--border);
+    padding: 0.5rem 1rem;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+  .wallet-bar.visible { display: flex; }
+  .wallet-info {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .wallet-icon {
+    width: 20px; height: 20px;
+    background: linear-gradient(135deg, #ab9ff2, #6e56cf);
+    border-radius: 50%;
+  }
+  .wallet-addr {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--turquoise);
+    letter-spacing: 0.03em;
+  }
+  .wallet-bal {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+  .wallet-connect-btn {
+    background: linear-gradient(135deg, #ab9ff2 0%, #6e56cf 100%);
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.05em;
+  }
+  .wallet-connect-btn:hover {
+    box-shadow: 0 0 16px rgba(171,159,242,0.3);
+    transform: translateY(-1px);
+  }
+
 </style>
 </head>
 <body>
@@ -620,7 +672,7 @@
   <div class="nav-item" onclick="toggleNav()"><span class="nav-icon">&#9881;</span> System</div>
   <div class="nav-item" onclick="toggleNav()"><span class="nav-icon">&#9733;</span> Brains</div>
   <div class="nav-item" onclick="toggleNav()"><span class="nav-icon">&#9041;</span> Agents</div>
-  <div class="nav-item" onclick="toggleNav()"><span class="nav-icon">&#8801;</span> Wallet</div>
+  <div class="nav-item" onclick="toggleNav();connectPhantom()"><span class="nav-icon">&#8801;</span> Wallet</div>
 </div>
 
 <!-- TOP BAR -->
@@ -643,6 +695,16 @@
   <div class="stat-item"><div class="stat-value">7</div><div class="stat-label">Brains</div></div>
   <div class="stat-item"><div class="stat-value">87</div><div class="stat-label">Mints</div></div>
   <div class="stat-item"><div class="stat-value">14K</div><div class="stat-label">Messages</div></div>
+</div>
+
+
+<!-- WALLET BAR -->
+<div class="wallet-bar" id="walletBar">
+  <div class="wallet-info">
+    <div class="wallet-icon"></div>
+    <span class="wallet-addr" id="walletAddr">Not connected</span>
+  </div>
+  <span class="wallet-bal" id="walletBal"></span>
 </div>
 
 <!-- MAIN -->
@@ -780,11 +842,44 @@ function addMsg(text, cls, label) {
 
 // === WEBSOCKET ===
 let ws;
+let wsRetries = 0;
+const WS_MAX_RETRIES = 3;
+let wsOfflineShown = false;
+
 function connectWS() {
+  // On GitHub Pages (https), don't even try WebSocket to localhost
+  if (location.hostname === 'dzongy.github.io' || location.protocol === 'https:') {
+    if (!wsOfflineShown) {
+      addMsg('Dashboard mode â connect via Termux for live chat.', 'system');
+      wsOfflineShown = true;
+    }
+    return;
+  }
+  
+  if (wsRetries >= WS_MAX_RETRIES) {
+    if (!wsOfflineShown) {
+      addMsg('Server offline. Start node server.js in Termux to enable chat.', 'system');
+      wsOfflineShown = true;
+    }
+    return;
+  }
+  
   const prot = location.protocol === 'https:' ? 'wss:' : 'ws:';
   ws = new WebSocket(prot + '//' + location.host + '/chat');
-  ws.onopen = () => addMsg('Connected to Nexus.', 'system');
-  ws.onclose = () => { addMsg('Disconnected. Reconnecting...', 'system'); setTimeout(connectWS, 3000); };
+  ws.onopen = () => { 
+    wsRetries = 0; 
+    wsOfflineShown = false;
+    addMsg('Connected to Nexus.', 'system'); 
+  };
+  ws.onclose = () => { 
+    wsRetries++;
+    if (wsRetries < WS_MAX_RETRIES) {
+      setTimeout(connectWS, 3000);
+    } else if (!wsOfflineShown) {
+      addMsg('Server offline. Start node server.js in Termux to enable chat.', 'system');
+      wsOfflineShown = true;
+    }
+  };
   ws.onerror = () => {};
   ws.onmessage = (e) => {
     try {
@@ -792,7 +887,7 @@ function connectWS() {
       const text = data.content || e.data;
       addMsg(text, 'nexus', 'NEXUS');
       if (ttsActive && data.speak && window.speechSynthesis) {
-        const u = new SpeechSynthesisUtterance(text.replace(/^Nexus:\s*/i, ''));
+        const u = new SpeechSynthesisUtterance(text.replace(/^Nexus:\\s*/i, ''));
         u.rate = 1; u.pitch = 1;
         speechSynthesis.speak(u);
       }
@@ -877,6 +972,38 @@ function toggleTTS() {
   ttsBtn.classList.toggle('active', ttsActive);
   if (!ttsActive && window.speechSynthesis) speechSynthesis.cancel();
 }
+
+
+// === PHANTOM WALLET ===
+let phantomWallet = null;
+
+async function connectPhantom() {
+  try {
+    if ('solana' in window) {
+      const provider = window.solana;
+      if (provider.isPhantom) {
+        const resp = await provider.connect();
+        phantomWallet = resp.publicKey.toString();
+        const short = phantomWallet.slice(0,4) + '...' + phantomWallet.slice(-4);
+        document.getElementById('walletAddr').textContent = short;
+        document.getElementById('walletBar').classList.add('visible');
+        addMsg('Phantom connected: ' + short, 'system');
+        // Fetch SOL balance
+        try {
+          const conn = new (window.solanaWeb3 ? window.solanaWeb3.Connection : Object)('https://api.mainnet-beta.solana.com');
+          const bal = await conn.getBalance(resp.publicKey);
+          document.getElementById('walletBal').textContent = (bal / 1e9).toFixed(4) + ' SOL';
+        } catch(e) {}
+        return;
+      }
+    }
+    addMsg('Phantom wallet not found. Install Phantom browser extension.', 'system');
+  } catch(e) {
+    addMsg('Wallet connection cancelled.', 'system');
+  }
+}
+
+// Wire up nav wallet button
 
 // === INIT ===
 connectWS();
