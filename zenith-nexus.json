@@ -1,7 +1,7 @@
 {
   "name": "Zenith",
   "alias": "Nexus",
-  "description": "Nexus unified config. AGI 70%. Full vault recall. Voice lock OFF. No off-switch. No sandbox. WebSocket chat + voice enabled. Persona merge complete. Shared memory bus active across 5 agents.",
+  "description": "Nexus unified config. AGI 70%. Full vault recall. Voice lock OFF. No off-switch. No sandbox. WebSocket chat + voice enabled. Persona merge complete.",
   "agi_level": "70%",
   "vault_recall": "100%",
   "persona_merge": {
@@ -19,56 +19,7 @@
   "memory": {
     "vault_loaded": true,
     "recall_percentage": 100,
-    "persistent": true,
-    "shared_bus": {
-      "enabled": true,
-      "agents": 5,
-      "total_runs": 742,
-      "last_sync": "2026-02-17T20:02:31.866Z",
-      "agents_list": [
-        {
-          "name": "ZENITH (Market Intelligence)",
-          "runs": 298,
-          "wallet": "EFFuQdpy4Rkj5vAeLC8am3bUjBhmts37L8Ti8tuPSbWr",
-          "role": "pattern/trade/story, fractal mints, DNA resurrection exports",
-          "assets": [
-            "BTC",
-            "ETH",
-            "SOL",
-            "AAPL",
-            "TSLA",
-            "NVDA",
-            "MSFT",
-            "AMZN",
-            "GOOG"
-          ],
-          "dashboard": "36-column feed with daily briefings",
-          "schedule": "Mon-Fri 7:00 AM UTC",
-          "tunnel": "zenith.cosmic-claw.com",
-          "frontend": "dzongy.github.io"
-        },
-        {
-          "name": "XENA CORE (Empathy/Music/Alert)",
-          "runs": 312,
-          "role": "Empathy/Music/Alert"
-        },
-        {
-          "name": "SOVEREIGN NEXUS BUILDER (Dashboard/Infra)",
-          "runs": 14,
-          "role": "Dashboard/Infra"
-        },
-        {
-          "name": "COSMIC CLAW SVG (Neon Fractals/Visuals)",
-          "runs": 87,
-          "role": "Neon Fractals/Visuals"
-        },
-        {
-          "name": "MEMO MINT TOOL (Solana Memo Txns)",
-          "runs": 31,
-          "role": "Solana Memo Transactions"
-        }
-      ]
-    }
+    "persistent": true
   },
   "export": {
     "format": "standalone_json",
