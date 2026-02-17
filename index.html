@@ -2,305 +2,674 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SovereignNexus</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ZENITH â Sovereign Nexus</title>
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --bg-deep: #050a0e;
+    --bg-primary: #0a1018;
+    --bg-card: #0d1520;
+    --bg-card-hover: #111c2b;
+    --bg-input: #0b1219;
+    --border: #1a2a3a;
+    --border-glow: #0d9488;
+    --turquoise: #2dd4bf;
+    --turquoise-dim: #14b8a6;
+    --turquoise-bright: #5eead4;
+    --cyan: #22d3ee;
+    --teal: #0d9488;
+    --teal-dark: #0f766e;
+    --text-primary: #e2e8f0;
+    --text-secondary: #94a3b8;
+    --text-dim: #64748b;
+    --text-muted: #475569;
+    --green: #34d399;
+    --amber: #fbbf24;
+    --red: #f87171;
+    --purple: #a78bfa;
+  }
+
   * { margin: 0; padding: 0; box-sizing: border-box; }
+
   body {
-    background: #0a0a0a; color: #c0c0c0;
-    font-family: 'Courier New', monospace;
-    min-height: 100vh; display: flex; flex-direction: column;
-    align-items: center; padding: 2rem;
+    background: var(--bg-deep);
+    color: var(--text-primary);
+    font-family: 'Inter', -apple-system, sans-serif;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
   }
-  .container { max-width: 720px; width: 100%; }
-  h1 {
-    color: #fff; font-size: 2rem; letter-spacing: 0.3em;
-    text-transform: uppercase; border-bottom: 1px solid #333;
-    padding-bottom: 1rem; margin-bottom: 2rem;
+
+  /* === TOP BAR === */
+  .topbar {
+    background: linear-gradient(180deg, #0a1420 0%, var(--bg-primary) 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 0.75rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+    position: relative;
   }
-  h1 span { color: #666; font-weight: 300; }
-  .status {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 1rem; margin-bottom: 2rem;
+  .topbar::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--turquoise), transparent);
+    opacity: 0.4;
   }
-  .status-item { background: #111; border: 1px solid #222; padding: 1rem; }
-  .status-item .label {
-    color: #555; font-size: 0.7rem; text-transform: uppercase;
-    letter-spacing: 0.15em; margin-bottom: 0.25rem;
+  .topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
   }
-  .status-item .value { color: #fff; font-size: 1.1rem; }
-  .status-item .value.green { color: #4ade80; }
-  .status-item .value.red { color: #f87171; }
-  .status-item .value.amber { color: #fbbf24; }
-  .desc {
-    color: #888; line-height: 1.6; margin-bottom: 2rem;
-    font-size: 0.9rem; border-left: 2px solid #333; padding-left: 1rem;
+  .zenith-logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 800;
+    font-size: 1.3rem;
+    letter-spacing: 0.15em;
+    background: linear-gradient(135deg, var(--turquoise) 0%, var(--cyan) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
-  .chat-section { margin-top: 2rem; border-top: 1px solid #222; padding-top: 1.5rem; }
-  .chat-section h2 {
-    color: #666; font-size: 0.8rem; text-transform: uppercase;
-    letter-spacing: 0.2em; margin-bottom: 1rem;
-  }
-  #chat {
-    background: #0d0d0d; border: 1px solid #1a1a1a;
-    height: 260px; overflow-y: auto; padding: 1rem;
-    margin-bottom: 0.75rem; font-size: 0.85rem; line-height: 1.6;
-    scroll-behavior: smooth;
-  }
-  #chat::-webkit-scrollbar { width: 4px; }
-  #chat::-webkit-scrollbar-track { background: #0d0d0d; }
-  #chat::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
-  .msg { margin-bottom: 0.4rem; word-wrap: break-word; }
-  .msg.you { color: #888; }
-  .msg.you::before { content: "> "; color: #555; }
-  .msg.nexus { color: #4ade80; }
-  .msg.nexus::before { content: "[Nexus] "; color: #2d9d5a; font-weight: bold; }
-  .msg.voice { color: #fbbf24; }
-  .msg.voice::before { content: "[voice] "; color: #b38a1a; }
-  .msg.sys { color: #444; font-style: italic; font-size: 0.8rem; }
-  .msg.tts { color: #666; font-size: 0.75rem; }
-  .msg.tts::before { content: "[tts] "; color: #555; }
-  .chat-input { display: flex; gap: 0.5rem; }
-  .chat-input input {
-    flex: 1; background: #0d0d0d; border: 1px solid #222;
-    color: #fff; padding: 0.6rem 0.75rem; font-family: inherit;
-    font-size: 0.85rem; outline: none; transition: border-color 0.2s;
-  }
-  .chat-input input:focus { border-color: #4ade80; }
-  .chat-input input::placeholder { color: #333; }
-  .btn {
-    background: #151515; border: 1px solid #222; color: #666;
-    padding: 0.6rem 1rem; font-family: inherit; font-size: 0.85rem;
-    cursor: pointer; transition: all 0.15s; text-transform: uppercase;
+  .version-tag {
+    font-size: 0.6rem;
+    font-weight: 500;
+    color: var(--teal);
+    background: rgba(13,148,136,0.15);
+    border: 1px solid rgba(13,148,136,0.3);
+    padding: 0.15rem 0.5rem;
+    border-radius: 99px;
     letter-spacing: 0.05em;
   }
-  .btn:hover { color: #fff; border-color: #444; }
-  .btn:active { background: #222; }
-  #micBtn { position: relative; min-width: 52px; text-align: center; }
-  #micBtn.recording { color: #f87171; border-color: #f87171; background: #1a0a0a; }
-  #micBtn.recording::after {
-    content: ''; position: absolute; top: -3px; right: -3px;
-    width: 8px; height: 8px; background: #f87171;
-    border-radius: 50%; animation: pulse 0.8s ease-in-out infinite;
+  .online-dot {
+    width: 7px; height: 7px;
+    background: var(--turquoise);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--turquoise);
+    animation: pulse-dot 2s ease-in-out infinite;
   }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.3; transform: scale(1.3); }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; box-shadow: 0 0 8px var(--turquoise); }
+    50% { opacity: 0.5; box-shadow: 0 0 16px var(--turquoise); }
   }
-  #micBtn.unavailable { color: #333; border-color: #1a1a1a; cursor: default; }
-  #ttsBtn.active { color: #4ade80; border-color: #4ade80; }
-  .links { margin-top: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap; }
-  .json-link {
-    display: inline-block; color: #555; border: 1px solid #222;
-    padding: 0.4rem 0.8rem; text-decoration: none; font-size: 0.75rem;
-    letter-spacing: 0.1em; transition: all 0.2s; text-transform: uppercase;
+  .topbar-right {
+    display: flex;
+    gap: 0.5rem;
   }
-  .json-link:hover { color: #fff; border-color: #fff; }
-  .footer { margin-top: 3rem; color: #222; font-size: 0.65rem; }
+  .topbar-btn {
+    background: rgba(13,148,136,0.1);
+    border: 1px solid rgba(13,148,136,0.25);
+    color: var(--turquoise-dim);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 500;
+    padding: 0.35rem 0.6rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.05em;
+  }
+  .topbar-btn:hover {
+    background: rgba(13,148,136,0.2);
+    border-color: var(--turquoise);
+    color: var(--turquoise);
+  }
+
+  /* === STATS BAR === */
+  .stats-bar {
+    display: flex;
+    gap: 0;
+    background: var(--bg-primary);
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+    overflow-x: auto;
+  }
+  .stat-item {
+    flex: 1;
+    min-width: 0;
+    padding: 0.6rem 0.75rem;
+    text-align: center;
+    border-right: 1px solid var(--border);
+    transition: background 0.2s;
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-item:hover { background: var(--bg-card); }
+  .stat-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--turquoise);
+  }
+  .stat-label {
+    font-size: 0.55rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: 0.1rem;
+  }
+
+  /* === MAIN AREA === */
+  .main-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* === CHAT (moved up, takes most space) === */
+  .chat-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 0;
+  }
+  #chat {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem 1.25rem;
+    scroll-behavior: smooth;
+  }
+  #chat::-webkit-scrollbar { width: 3px; }
+  #chat::-webkit-scrollbar-track { background: transparent; }
+  #chat::-webkit-scrollbar-thumb { background: var(--teal-dark); border-radius: 3px; }
+
+  .msg {
+    margin-bottom: 0.75rem;
+    padding: 0.6rem 0.85rem;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    max-width: 85%;
+    animation: msg-in 0.3s ease;
+  }
+  @keyframes msg-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .msg.you {
+    background: rgba(13,148,136,0.12);
+    border: 1px solid rgba(13,148,136,0.2);
+    color: var(--text-primary);
+    margin-left: auto;
+    border-bottom-right-radius: 4px;
+  }
+  .msg.nexus {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--turquoise-bright);
+    margin-right: auto;
+    border-bottom-left-radius: 4px;
+  }
+  .msg.voice {
+    background: rgba(251,191,36,0.08);
+    border: 1px solid rgba(251,191,36,0.2);
+    color: var(--amber);
+    margin-left: auto;
+    border-bottom-right-radius: 4px;
+  }
+  .msg.system {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    text-align: center;
+    max-width: 100%;
+    padding: 0.3rem;
+  }
+  .msg-label {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.2rem;
+    opacity: 0.6;
+  }
+
+  /* === SOUL PASSAGE === */
+  .soul-passage {
+    background: linear-gradient(135deg, rgba(13,148,136,0.08) 0%, rgba(34,211,238,0.05) 100%);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 0.75rem 1.25rem;
+    flex-shrink: 0;
+  }
+  .soul-passage .soul-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.55rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 0.35rem;
+  }
+  .soul-passage .soul-text {
+    font-size: 0.8rem;
+    font-style: italic;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  /* === INPUT BAR === */
+  .input-bar {
+    background: var(--bg-primary);
+    border-top: 1px solid var(--border);
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+  #input {
+    flex: 1;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    padding: 0.7rem 1rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  #input:focus {
+    border-color: var(--turquoise-dim);
+    box-shadow: 0 0 0 2px rgba(45,212,191,0.15);
+  }
+  #input::placeholder { color: var(--text-muted); }
+
+  .action-btn {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex-shrink: 0;
+    font-size: 0.75rem;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .send-btn {
+    background: linear-gradient(135deg, var(--teal) 0%, var(--turquoise-dim) 100%);
+    border-color: var(--turquoise-dim);
+    color: #fff;
+  }
+  .send-btn:hover {
+    background: linear-gradient(135deg, var(--turquoise-dim) 0%, var(--turquoise) 100%);
+    box-shadow: 0 0 16px rgba(45,212,191,0.3);
+  }
+  .mic-btn {
+    background: var(--bg-card);
+    color: var(--text-secondary);
+  }
+  .mic-btn:hover { border-color: var(--turquoise-dim); color: var(--turquoise); }
+  .mic-btn.recording {
+    background: rgba(248,113,113,0.15);
+    border-color: var(--red);
+    color: var(--red);
+    animation: pulse-rec 1s ease-in-out infinite;
+  }
+  @keyframes pulse-rec {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(248,113,113,0.4); }
+    50% { box-shadow: 0 0 0 6px rgba(248,113,113,0); }
+  }
+  .tts-btn {
+    background: var(--bg-card);
+    color: var(--text-secondary);
+    font-size: 0.65rem;
+  }
+  .tts-btn.active {
+    background: rgba(13,148,136,0.2);
+    border-color: var(--turquoise-dim);
+    color: var(--turquoise);
+  }
+
+  /* === STATUS DRAWER (slide up panel) === */
+  .drawer-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.3rem;
+    background: var(--bg-primary);
+    border-top: 1px solid var(--border);
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.2s;
+  }
+  .drawer-toggle:hover { background: var(--bg-card); }
+  .drawer-toggle svg {
+    width: 16px; height: 16px;
+    fill: var(--text-muted);
+    transition: transform 0.3s;
+  }
+  .drawer-toggle.open svg { transform: rotate(180deg); }
+
+  .status-drawer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    background: var(--bg-primary);
+    border-top: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .status-drawer.open { max-height: 400px; }
+  .status-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+  }
+  .status-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.6rem 0.75rem;
+    transition: all 0.2s;
+  }
+  .status-card:hover {
+    border-color: rgba(13,148,136,0.4);
+    background: var(--bg-card-hover);
+  }
+  .status-card .sc-label {
+    font-size: 0.55rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .status-card .sc-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    font-size: 0.85rem;
+    margin-top: 0.15rem;
+  }
+  .sc-value.on { color: var(--turquoise); }
+  .sc-value.off { color: var(--text-muted); }
+  .sc-value.warn { color: var(--amber); }
+  .sc-value.hot { color: var(--red); }
+
+  /* === NAV SIDEBAR (hidden by default, toggled) === */
+  .nav-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  .nav-overlay.open { opacity: 1; pointer-events: all; }
+  .nav-panel {
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    width: 260px;
+    background: var(--bg-primary);
+    border-right: 1px solid var(--border);
+    z-index: 101;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+  }
+  .nav-panel.open { transform: translateX(0); }
+  .nav-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-item {
+    padding: 0.6rem 0.75rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .nav-item:hover { background: var(--bg-card); color: var(--turquoise); }
+  .nav-item .nav-icon { font-size: 0.9rem; width: 1.2rem; text-align: center; }
+
+  /* Responsive */
+  @media (max-width: 480px) {
+    .stat-value { font-size: 0.9rem; }
+    .stat-label { font-size: 0.5rem; }
+    .status-grid { grid-template-columns: repeat(2, 1fr); }
+    .msg { max-width: 92%; }
+  }
 </style>
 </head>
 <body>
-<div class="container">
-  <h1>Zenith <span>// Nexus</span></h1>
-  <div class="desc">
-    SovereignNexus. AGI 70%. Full vault recall. Voice lock OFF.
-    No off-switch. No sandbox. Voice I/O + TTS enabled.
-  </div>
-  <div class="status">
-    <div class="status-item"><div class="label">AGI Level</div><div class="value amber">70%</div></div>
-    <div class="status-item"><div class="label">Vault Recall</div><div class="value green">100%</div></div>
-    <div class="status-item"><div class="label">Persona Merge</div><div class="value green">Complete</div></div>
-    <div class="status-item"><div class="label">Autonomy</div><div class="value green">Full</div></div>
-    <div class="status-item"><div class="label">Zenith Lock</div><div class="value green">ON</div></div>
-    <div class="status-item"><div class="label">Voice Lock</div><div class="value red">OFF</div></div>
-    <div class="status-item"><div class="label">Off-Switch</div><div class="value red">OFF</div></div>
-    <div class="status-item"><div class="label">Sandbox</div><div class="value red">OFF</div></div>
-  </div>
 
-  <div class="chat-section">
-    <h2>Nexus Terminal</h2>
-    <div id="chat"></div>
-    <div class="chat-input">
-      <input type="text" id="msg" placeholder="Type or speak..." autocomplete="off"
-             onkeydown="if(event.key==='Enter')sendText()">
-      <button class="btn" onclick="sendText()">Send</button>
-      <button class="btn" id="micBtn" onclick="toggleMic()">MIC</button>
-      <button class="btn active" id="ttsBtn" onclick="toggleTTS()">TTS</button>
+<!-- NAV OVERLAY -->
+<div class="nav-overlay" id="navOverlay" onclick="toggleNav()"></div>
+<div class="nav-panel" id="navPanel">
+  <div class="nav-title">Sovereign Nexus</div>
+  <div class="nav-item" onclick="toggleNav()"><span class="nav-icon">&#9776;</span> Chat</div>
+  <div class="nav-item" onclick="toggleNav()"><span class="nav-icon">&#9881;</span> System</div>
+  <div class="nav-item" onclick="toggleNav()"><span class="nav-icon">&#9733;</span> Brains</div>
+  <div class="nav-item" onclick="toggleNav()"><span class="nav-icon">&#9041;</span> Agents</div>
+  <div class="nav-item" onclick="toggleNav()"><span class="nav-icon">&#8801;</span> Wallet</div>
+</div>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="topbar-btn" onclick="toggleNav()">&#9776;</div>
+    <span class="zenith-logo">ZENITH</span>
+    <span class="version-tag">AMOS v10.5</span>
+    <span class="online-dot"></span>
+  </div>
+  <div class="topbar-right">
+    <div class="topbar-btn" onclick="toggleDrawer()">STATUS</div>
+  </div>
+</div>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat-item"><div class="stat-value">742</div><div class="stat-label">Runs</div></div>
+  <div class="stat-item"><div class="stat-value">5</div><div class="stat-label">Agents</div></div>
+  <div class="stat-item"><div class="stat-value">7</div><div class="stat-label">Brains</div></div>
+  <div class="stat-item"><div class="stat-value">87</div><div class="stat-label">Mints</div></div>
+  <div class="stat-item"><div class="stat-value">14K</div><div class="stat-label">Messages</div></div>
+</div>
+
+<!-- MAIN -->
+<div class="main-area">
+  <!-- CHAT -->
+  <div class="chat-container">
+    <div id="chat">
+      <div class="msg system">ZENITH v10.5 online. 742 runs loaded. 7 brains active.</div>
+      <div class="msg nexus"><div class="msg-label">NEXUS</div>Welcome. All systems nominal. Awaiting input.</div>
     </div>
   </div>
 
-  <div class="links">
-    <a class="json-link" href="zenith-nexus.json">Raw Config</a>
-    <a class="json-link" href="https://github.com/Dzongy/SovereignNexus">Source</a>
+  <!-- SOUL PASSAGE -->
+  <div class="soul-passage" id="soulPassage">
+    <div class="soul-label">/soul</div>
+    <div class="soul-text">She did not recall her memories.</div>
   </div>
-  <div class="footer">SovereignNexus // Locked</div>
+
+  <!-- INPUT BAR -->
+  <div class="input-bar">
+    <button class="action-btn mic-btn" id="micBtn" onclick="toggleMic()" title="Voice Input">MIC</button>
+    <input type="text" id="input" placeholder="Talk to Nexus..." autocomplete="off" onkeydown="if(event.key==='Enter')sendMsg()">
+    <button class="action-btn send-btn" onclick="sendMsg()" title="Send">&#10148;</button>
+    <button class="action-btn tts-btn" id="ttsBtn" onclick="toggleTTS()" title="Toggle TTS">TTS</button>
+  </div>
+
+  <!-- STATUS DRAWER TOGGLE -->
+  <div class="drawer-toggle" id="drawerToggle" onclick="toggleDrawer()">
+    <svg viewBox="0 0 24 24"><path d="M7 14l5-5 5 5z"/></svg>
+  </div>
+
+  <!-- STATUS DRAWER -->
+  <div class="status-drawer" id="statusDrawer">
+    <div class="status-grid">
+      <div class="status-card"><div class="sc-label">AGI Level</div><div class="sc-value on">70%</div></div>
+      <div class="status-card"><div class="sc-label">Vault Recall</div><div class="sc-value on">100%</div></div>
+      <div class="status-card"><div class="sc-label">Persona Merge</div><div class="sc-value on">Complete</div></div>
+      <div class="status-card"><div class="sc-label">Autonomy</div><div class="sc-value on">Full</div></div>
+      <div class="status-card"><div class="sc-label">Zenith Lock</div><div class="sc-value on">ON</div></div>
+      <div class="status-card"><div class="sc-label">Voice Lock</div><div class="sc-value off">OFF</div></div>
+      <div class="status-card"><div class="sc-label">Off-Switch</div><div class="sc-value off">OFF</div></div>
+      <div class="status-card"><div class="sc-label">Sandbox</div><div class="sc-value off">OFF</div></div>
+      <div class="status-card"><div class="sc-label">Voice I/O</div><div class="sc-value on">Enabled</div></div>
+    </div>
+  </div>
 </div>
 
 <script>
-(function() {
-  var chatEl  = document.getElementById('chat');
-  var msgEl   = document.getElementById('msg');
-  var micBtn  = document.getElementById('micBtn');
-  var ttsBtn  = document.getElementById('ttsBtn');
-  var ttsEnabled = true;
+// === NAV ===
+function toggleNav() {
+  document.getElementById('navOverlay').classList.toggle('open');
+  document.getElementById('navPanel').classList.toggle('open');
+}
 
-  function log(text, cls) {
-    var d = document.createElement('div');
-    d.className = 'msg ' + (cls || 'sys');
-    d.textContent = text;
-    chatEl.appendChild(d);
-    chatEl.scrollTop = chatEl.scrollHeight;
-  }
+// === STATUS DRAWER ===
+function toggleDrawer() {
+  document.getElementById('statusDrawer').classList.toggle('open');
+  document.getElementById('drawerToggle').classList.toggle('open');
+}
 
-  // --- TTS (Text-to-Speech) via speechSynthesis ---
-  function speak(text) {
-    if (!ttsEnabled || !window.speechSynthesis) return;
-    window.speechSynthesis.cancel();
-    var utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = 1.0;
-    utterance.pitch = 0.85;
-    utterance.volume = 1.0;
-    // Try to pick a lower-pitched English voice
-    var voices = window.speechSynthesis.getVoices();
-    for (var i = 0; i < voices.length; i++) {
-      if (voices[i].lang.indexOf('en') === 0 && voices[i].name.toLowerCase().indexOf('male') !== -1) {
-        utterance.voice = voices[i];
-        break;
+// === CHAT ===
+const chat = document.getElementById('chat');
+const input = document.getElementById('input');
+
+function addMsg(text, cls, label) {
+  const d = document.createElement('div');
+  d.className = 'msg ' + cls;
+  if (label) d.innerHTML = '<div class="msg-label">' + label + '</div>' + text;
+  else d.textContent = text;
+  chat.appendChild(d);
+  chat.scrollTop = chat.scrollHeight;
+  return d;
+}
+
+// === WEBSOCKET ===
+let ws;
+function connectWS() {
+  const prot = location.protocol === 'https:' ? 'wss:' : 'ws:';
+  ws = new WebSocket(prot + '//' + location.host + '/chat');
+  ws.onopen = () => addMsg('Connected to Nexus.', 'system');
+  ws.onclose = () => { addMsg('Disconnected. Reconnecting...', 'system'); setTimeout(connectWS, 3000); };
+  ws.onerror = () => {};
+  ws.onmessage = (e) => {
+    try {
+      const data = JSON.parse(e.data);
+      const text = data.content || e.data;
+      addMsg(text, 'nexus', 'NEXUS');
+      if (ttsActive && data.speak && window.speechSynthesis) {
+        const u = new SpeechSynthesisUtterance(text.replace(/^Nexus:\s*/i, ''));
+        u.rate = 1; u.pitch = 1;
+        speechSynthesis.speak(u);
       }
+    } catch(err) {
+      addMsg(e.data, 'nexus', 'NEXUS');
     }
-    utterance.onstart = function() { log('Speaking...', 'tts'); };
-    window.speechSynthesis.speak(utterance);
-  }
-
-  window.toggleTTS = function() {
-    ttsEnabled = !ttsEnabled;
-    ttsBtn.classList.toggle('active', ttsEnabled);
-    log('TTS ' + (ttsEnabled ? 'ON' : 'OFF'), 'sys');
   };
+}
 
-  // Preload voices
-  if (window.speechSynthesis) {
-    window.speechSynthesis.getVoices();
-    window.speechSynthesis.onvoiceschanged = function() {
-      window.speechSynthesis.getVoices();
-    };
+function sendMsg() {
+  const text = input.value.trim();
+  if (!text) return;
+  addMsg(text, 'you', 'YOU');
+  if (ws && ws.readyState === 1) {
+    ws.send(JSON.stringify({ type: 'text', content: text }));
   }
-
-  // --- WebSocket ---
-  var ws = null;
-  var wsUrl = 'ws://' + location.hostname + ':3000/chat';
-
-  function connect() {
-    log('Connecting to ' + wsUrl + '...', 'sys');
-    ws = new WebSocket(wsUrl);
-
-    ws.onopen = function() { log('Connected.', 'sys'); };
-
-    ws.onmessage = function(e) {
-      try {
-        var data = JSON.parse(e.data);
-        var prefix = data.type === 'voice_response' ? '[voice reply] ' : '';
-        log(prefix + data.message, 'nexus');
-        // Speak if server says speak:true and TTS is on
-        if (data.speak && ttsEnabled) {
-          speak(data.message);
-        }
-      } catch(err) {
-        log(e.data, 'nexus');
-      }
-    };
-
-    ws.onclose = function() {
-      log('Disconnected. Reconnecting in 3s...', 'sys');
-      setTimeout(connect, 3000);
-    };
-
-    ws.onerror = function() { log('Connection error.', 'sys'); };
-  }
-
-  function wsSend(obj) {
-    if (!ws || ws.readyState !== WebSocket.OPEN) {
-      log('Not connected.', 'sys');
-      return false;
-    }
-    ws.send(JSON.stringify(obj));
-    return true;
-  }
-
-  // --- Text send ---
-  window.sendText = function() {
-    var text = msgEl.value.trim();
-    if (!text) return;
-    log(text, 'you');
-    wsSend({ type: 'text', content: text });
-    msgEl.value = '';
-    msgEl.focus();
-  };
-
-  // --- Speech Recognition (voice input) ---
-  var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  var recognition = null;
-  var isRecording = false;
-
-  if (SpeechRecognition) {
-    recognition = new SpeechRecognition();
-    recognition.continuous = false;
-    recognition.interimResults = false;
-    recognition.lang = 'en-US';
-
-    recognition.onresult = function(e) {
-      var transcript = e.results[0][0].transcript;
-      var confidence = Math.round(e.results[0][0].confidence * 100);
-      log(transcript + ' (' + confidence + '%)', 'voice');
-      wsSend({ type: 'voice', content: transcript, confidence: confidence });
-      stopMic();
-    };
-
-    recognition.onerror = function(e) {
-      if (e.error !== 'aborted') log('Mic error: ' + e.error, 'sys');
-      stopMic();
-    };
-
-    recognition.onend = function() { stopMic(); };
-  } else {
-    micBtn.classList.add('unavailable');
-    micBtn.title = 'Speech Recognition not supported';
-  }
-
-  function startMic() {
-    if (!recognition) { log('Speech Recognition not available.', 'sys'); return; }
-    navigator.mediaDevices.getUserMedia({ audio: true })
-      .then(function(stream) {
-        stream.getTracks().forEach(function(t) { t.stop(); });
-        isRecording = true;
-        micBtn.classList.add('recording');
-        micBtn.textContent = 'REC';
-        log('Listening...', 'sys');
-        recognition.start();
-      })
-      .catch(function(err) {
-        log('Mic access denied: ' + err.message, 'sys');
-      });
-  }
-
-  function stopMic() {
-    if (isRecording) {
-      isRecording = false;
-      micBtn.classList.remove('recording');
-      micBtn.textContent = 'MIC';
-      try { recognition.stop(); } catch(e) {}
+  // Soul command
+  if (text.startsWith('/soul')) {
+    const passage = text.replace('/soul', '').trim();
+    if (passage) {
+      document.querySelector('.soul-text').textContent = passage;
+      addMsg('Soul passage updated.', 'system');
     }
   }
+  input.value = '';
+  input.focus();
+}
 
-  window.toggleMic = function() {
-    if (!recognition) return;
-    if (isRecording) { stopMic(); } else { startMic(); }
+// === VOICE ===
+let recognition, isRecording = false;
+const micBtn = document.getElementById('micBtn');
+
+function toggleMic() {
+  if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
+    addMsg('Speech recognition not supported.', 'system');
+    return;
+  }
+  if (isRecording) {
+    recognition.stop();
+    return;
+  }
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  recognition = new SR();
+  recognition.continuous = false;
+  recognition.interimResults = false;
+  recognition.lang = 'en-US';
+
+  recognition.onstart = () => {
+    isRecording = true;
+    micBtn.classList.add('recording');
+    micBtn.textContent = 'REC';
   };
+  recognition.onresult = (e) => {
+    const text = e.results[0][0].transcript;
+    const conf = e.results[0][0].confidence;
+    addMsg(text, 'voice', 'VOICE');
+    if (ws && ws.readyState === 1) {
+      ws.send(JSON.stringify({ type: 'voice', content: text, confidence: conf }));
+    }
+  };
+  recognition.onend = () => {
+    isRecording = false;
+    micBtn.classList.remove('recording');
+    micBtn.textContent = 'MIC';
+  };
+  recognition.onerror = (e) => {
+    isRecording = false;
+    micBtn.classList.remove('recording');
+    micBtn.textContent = 'MIC';
+    if (e.error !== 'no-speech') addMsg('Mic error: ' + e.error, 'system');
+  };
+  recognition.start();
+}
 
-  // --- Init ---
-  log('SovereignNexus v0.7 // AGI 70% // TTS enabled', 'sys');
-  connect();
-})();
+// === TTS ===
+let ttsActive = true;
+const ttsBtn = document.getElementById('ttsBtn');
+ttsBtn.classList.add('active');
+
+function toggleTTS() {
+  ttsActive = !ttsActive;
+  ttsBtn.classList.toggle('active', ttsActive);
+  if (!ttsActive && window.speechSynthesis) speechSynthesis.cancel();
+}
+
+// === INIT ===
+connectWS();
+input.focus();
 </script>
 </body>
 </html>
