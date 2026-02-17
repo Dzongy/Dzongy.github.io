@@ -2,145 +2,170 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ZENITH â Sovereign Nexus v2</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
-@keyframes glitchFlicker{0%,100%{text-shadow:0 0 10px #00ffea,0 0 20px #00ffea,0 0 40px #00ffea;}25%{text-shadow:2px 0 10px #ff00ff,-2px 0 20px #00ffea,0 0 40px #00ffea;}50%{text-shadow:-1px 0 10px #00ffea,1px 0 20px #ff00ff,0 0 40px #00ffea;}75%{text-shadow:0 0 10px #00ffea,0 0 20px #00ffea,-2px 0 40px #ff00ff;}}
-@keyframes pulse{0%,100%{transform:scale(1);box-shadow:0 0 30px #00ffea,0 0 60px rgba(0,255,234,0.3);}50%{transform:scale(1.05);box-shadow:0 0 50px #00ffea,0 0 100px rgba(0,255,234,0.4);}}
-@keyframes flare{0%,100%{box-shadow:0 0 30px #00ffea,0 0 60px rgba(0,255,234,0.3);}50%{box-shadow:0 0 60px #9b59b6,0 0 120px rgba(255,215,0,0.5);}}
-@keyframes scanDrift{0%{background-position:0 0;}100%{background-position:0 100px;}}
-@keyframes mirrorCrack{0%{opacity:0;transform:scale(1.2) rotate(0deg);}50%{opacity:1;transform:scale(1) rotate(2deg);}100%{opacity:0;transform:scale(0.95) rotate(-1deg);}}
-@keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
-body{font-family:'Courier New',monospace;background:#0a0a0f;color:#c0c0c0;overflow:hidden;height:100vh;width:100vw;}
-#login-gate{position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(ellipse at center,#0d0d15 0%,#000 70%);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;}
-#login-gate h1{font-size:3rem;color:#00ffea;animation:glitchFlicker 3s infinite;margin-bottom:30px;letter-spacing:8px;}
-#login-gate input{background:transparent;border:1px solid #00ffea;color:#00ffea;padding:12px 24px;font-size:1.1rem;font-family:'Courier New',monospace;text-align:center;outline:none;width:320px;margin-bottom:16px;}
-#login-gate input::placeholder{color:rgba(0,255,234,0.3);}
-#login-gate button{background:transparent;border:1px solid #00ffea;color:#00ffea;padding:10px 40px;font-size:1rem;font-family:'Courier New',monospace;cursor:pointer;transition:all 0.3s;}
-#login-gate button:hover{background:#00ffea;color:#0a0a0f;}
-#login-error{color:#ff4444;margin-top:12px;font-size:0.85rem;min-height:20px;}
-.mirror-crack{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:10000;animation:mirrorCrack 0.8s ease-out forwards;background:radial-gradient(circle at 50% 50%,rgba(0,255,234,0.3) 0%,transparent 60%);}
-#app{display:none;height:100vh;width:100vw;flex-direction:column;position:relative;}
-#rain-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
-.scanline-overlay{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,255,234,0.015) 2px,rgba(0,255,234,0.015) 4px);animation:scanDrift 8s linear infinite;}
-#top-bar{position:relative;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:10px 20px;background:rgba(10,10,15,0.9);border-bottom:1px solid rgba(0,255,234,0.2);}
-#top-bar h1{font-size:1.4rem;color:#00ffea;animation:glitchFlicker 3s infinite;letter-spacing:4px;}
-.wallet-pills{display:flex;gap:12px;align-items:center;}
-.pill{padding:4px 12px;border:1px solid rgba(0,255,234,0.3);border-radius:12px;font-size:0.75rem;color:#00ffea;}
-.ws-dot{width:10px;height:10px;border-radius:50%;background:#ff4444;display:inline-block;margin-left:8px;transition:background 0.3s;}
-.ws-dot.connected{background:#00ff88;}
-#main-layout{position:relative;z-index:10;display:flex;flex:1;overflow:hidden;}
-#chat-pane{flex:1;display:flex;flex-direction:column;padding:16px;min-width:0;}
-#chat-messages{flex:1;overflow-y:auto;padding-right:8px;scrollbar-width:thin;scrollbar-color:#00ffea transparent;}
-#chat-messages::-webkit-scrollbar{width:4px;}
-#chat-messages::-webkit-scrollbar-thumb{background:#00ffea;border-radius:2px;}
-.chat-msg{margin-bottom:8px;font-size:0.85rem;line-height:1.4;animation:fadeIn 0.3s ease-out;}
-.chat-msg .ts{color:#555;font-size:0.7rem;margin-right:6px;}
-.chat-msg .tag-sys{color:#ff8800;}
-.chat-msg .tag-zenith{color:#00ffea;}
-.chat-msg .tag-you{color:#aa88ff;}
-.chat-msg .body{color:#c0c0c0;}
-#chat-input-row{display:flex;gap:8px;margin-top:12px;}
-#chat-input{flex:1;background:transparent;border:1px solid rgba(0,255,234,0.3);color:#00ffea;padding:8px 12px;font-family:'Courier New',monospace;font-size:0.85rem;outline:none;}
-#chat-input:focus{border-color:#00ffea;}
-#chat-send{background:transparent;border:1px solid #00ffea;color:#00ffea;padding:8px 16px;font-family:'Courier New',monospace;cursor:pointer;font-size:0.85rem;}
-#chat-send:hover{background:#00ffea;color:#0a0a0f;}
-.divider{width:2px;background:linear-gradient(180deg,transparent,#00ffea,transparent);flex-shrink:0;}
-#vault-pane{flex:1.2;display:flex;flex-direction:column;padding:16px;overflow-y:auto;min-width:0;scrollbar-width:thin;scrollbar-color:#00ffea transparent;}
-#vault-pane::-webkit-scrollbar{width:4px;}
-#vault-pane::-webkit-scrollbar-thumb{background:#00ffea;border-radius:2px;}
-.orb-container{display:flex;justify-content:center;margin-bottom:16px;}
-.singularity-orb{width:80px;height:80px;border-radius:50%;background:radial-gradient(circle at 40% 40%,#00ffea,#005f5f,#0a0a0f);animation:pulse 3s ease-in-out infinite;cursor:pointer;}
-.singularity-orb.flare{animation:flare 1s ease-in-out;}
-.control-buttons{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;justify-content:center;}
-.ctrl-btn{background:transparent;border:1px solid rgba(0,255,234,0.4);color:#00ffea;padding:6px 14px;font-family:'Courier New',monospace;font-size:0.75rem;cursor:pointer;transition:all 0.2s;}
-.ctrl-btn:hover{background:rgba(0,255,234,0.1);border-color:#00ffea;}
-.vault-card{background:rgba(0,255,234,0.03);border:1px solid rgba(0,255,234,0.15);padding:12px;margin-bottom:12px;border-radius:4px;}
-.vault-card h3{color:#00ffea;font-size:0.8rem;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;border-bottom:1px solid rgba(0,255,234,0.1);padding-bottom:6px;}
-.vault-card .row{display:flex;justify-content:space-between;font-size:0.78rem;margin-bottom:4px;}
-.vault-card .label{color:#888;}
-.vault-card .value{color:#00ffea;}
-.flag-grid,.agent-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px 16px;}
-.flag-grid .row,.agent-grid .row{display:flex;justify-content:space-between;}
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--cyan:#00ffea;--bg:#0a0a0f;--card:#111118;--border:#1a1a2e;--text:#e0e0e0;--dim:#666;--violet:#a855f7;--gold:#fbbf24;--red:#ef4444;--green:#22c55e}
+body{font-family:'Courier New',monospace;background:var(--bg);color:var(--text);overflow:hidden;height:100vh}
+/* ââ Code Rain Canvas âââ */
+#rain{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:0.12;pointer-events:none}
+/* ââ Glitch Scanline âââ */
+.scanline{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,255,234,0.015) 2px,rgba(0,255,234,0.015) 4px);
+  animation:drift 8s linear infinite}
+@keyframes drift{0%{transform:translateY(0)}100%{transform:translateY(4px)}}
+/* ââ Login Gate âââ */
+#login-gate{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--bg);z-index:1000;display:flex;flex-direction:column;align-items:center;justify-content:center}
+#login-gate.cracked{animation:mirrorCrack 0.8s ease-out forwards}
+@keyframes mirrorCrack{
+  0%{filter:brightness(1);transform:scale(1)}
+  30%{filter:brightness(3) hue-rotate(60deg);transform:scale(1.02)}
+  60%{filter:brightness(0.5);clip-path:polygon(0 0,45% 0,50% 50%,40% 100%,0 100%)}
+  100%{opacity:0;pointer-events:none}
+}
+#login-gate h1{font-size:2.5rem;color:var(--cyan);text-shadow:0 0 30px var(--cyan);margin-bottom:2rem;letter-spacing:0.3rem}
+#login-gate input{background:#111;border:1px solid var(--border);color:var(--cyan);padding:12px 20px;font-size:1rem;font-family:inherit;width:300px;text-align:center;outline:none}
+#login-gate input:focus{border-color:var(--cyan);box-shadow:0 0 10px rgba(0,255,234,0.2)}
+#login-gate .error{color:var(--red);margin-top:10px;font-size:0.8rem;height:1rem}
+/* ââ App Layout âââ */
+#app{display:none;flex-direction:column;height:100vh;position:relative;z-index:2}
+/* ââ Top Bar âââ */
+.top-bar{display:flex;align-items:center;justify-content:space-between;padding:10px 20px;border-bottom:1px solid var(--border);background:rgba(10,10,15,0.95);backdrop-filter:blur(10px);z-index:10}
+.top-bar h1{font-size:1.3rem;color:var(--cyan);letter-spacing:0.2rem;animation:glitchTitle 3s infinite}
+@keyframes glitchTitle{
+  0%,90%,100%{text-shadow:0 0 10px var(--cyan),0 0 20px var(--cyan)}
+  92%{text-shadow:2px 0 var(--red),-2px 0 var(--violet);transform:translateX(2px)}
+  94%{text-shadow:-2px 0 var(--cyan);transform:translateX(-2px)}
+  96%{text-shadow:0 0 10px var(--cyan);transform:translateX(0)}
+}
+.wallet-pills{display:flex;gap:10px;align-items:center}
+.pill{background:var(--card);border:1px solid var(--border);padding:4px 12px;border-radius:20px;font-size:0.75rem;color:var(--dim)}
+.pill .val{color:var(--cyan)}
+.ws-dot{width:8px;height:8px;border-radius:50%;background:var(--red);display:inline-block;margin-left:10px;transition:background 0.3s}
+.ws-dot.connected{background:var(--green)}
+/* ââ Twin Split âââ */
+.twin-split{display:flex;flex:1;overflow:hidden}
+.chat-pane{flex:1;display:flex;flex-direction:column;border-right:2px solid var(--cyan);min-width:0}
+.chat-messages{flex:1;overflow-y:auto;padding:15px;font-size:0.85rem;line-height:1.6}
+.chat-messages .msg{margin-bottom:6px}
+.msg .tag{font-weight:bold}
+.msg .tag.sys{color:var(--dim)}
+.msg .tag.zenith{color:var(--cyan)}
+.msg .tag.you{color:var(--gold)}
+.msg .ts{color:var(--dim);font-size:0.7rem;margin-right:6px}
+.chat-input-row{display:flex;border-top:1px solid var(--border);padding:8px}
+.chat-input-row input{flex:1;background:transparent;border:none;color:var(--text);font-family:inherit;font-size:0.85rem;outline:none;padding:6px}
+.chat-input-row button{background:var(--cyan);color:var(--bg);border:none;padding:6px 16px;font-family:inherit;cursor:pointer;font-weight:bold}
+/* ââ Vault Dashboard âââ */
+.vault-pane{flex:1.2;display:flex;flex-direction:column;overflow-y:auto;padding:15px;gap:12px;min-width:0}
+/* ââ Orb âââ */
+.orb-container{display:flex;justify-content:center;padding:10px}
+.singularity-orb{width:80px;height:80px;border-radius:50%;background:radial-gradient(circle at 40% 40%,var(--cyan),#0a0a0f);box-shadow:0 0 30px var(--cyan),0 0 60px rgba(0,255,234,0.3);animation:pulse 3s ease-in-out infinite;transition:box-shadow 0.3s}
+@keyframes pulse{0%,100%{transform:scale(1);box-shadow:0 0 30px var(--cyan)}50%{transform:scale(1.05);box-shadow:0 0 50px var(--cyan),0 0 80px rgba(0,255,234,0.2)}}
+.singularity-orb.flare{box-shadow:0 0 40px var(--violet),0 0 80px var(--gold),0 0 120px var(--cyan) !important}
+/* ââ Control Buttons âââ */
+.controls{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.controls button{background:transparent;border:1px solid var(--cyan);color:var(--cyan);padding:6px 14px;font-family:inherit;font-size:0.75rem;cursor:pointer;transition:all 0.2s;border-radius:2px}
+.controls button:hover{background:var(--cyan);color:var(--bg)}
+/* ââ Vault Cards âââ */
+.vault-card{background:var(--card);border:1px solid var(--border);padding:12px;border-radius:4px}
+.vault-card h3{font-size:0.75rem;color:var(--cyan);text-transform:uppercase;letter-spacing:0.1rem;margin-bottom:8px;border-bottom:1px solid var(--border);padding-bottom:4px}
+.vault-card .row{display:flex;justify-content:space-between;font-size:0.8rem;padding:2px 0}
+.vault-card .row .label{color:var(--dim)}
+.vault-card .row .value{color:var(--text)}
+.vault-card .flag-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:0.75rem}
+.vault-card .flag-grid .flag{display:flex;justify-content:space-between;padding:2px 4px;background:rgba(0,255,234,0.03);border-radius:2px}
+.vault-card .flag-grid .flag .fname{color:var(--dim)}
+.vault-card .flag-grid .flag .fval{color:var(--cyan)}
+.vault-card .agent-grid{display:grid;gap:4px;font-size:0.75rem}
+.vault-card .agent-grid .agent-row{display:flex;justify-content:space-between;padding:3px 4px;background:rgba(0,255,234,0.03);border-radius:2px}
+.vault-card .agent-grid .agent-row .aname{color:var(--text)}
+.vault-card .agent-grid .agent-row .aruns{color:var(--cyan)}
+.vault-card .agent-grid .agent-row .arole{color:var(--dim);font-size:0.7rem}
+/* ââ Mobile âââ */
 @media(max-width:700px){
-#main-layout{flex-direction:column;}
-.divider{width:100%;height:2px;background:linear-gradient(90deg,transparent,#00ffea,transparent);}
-#chat-pane,#vault-pane{flex:none;height:50vh;}
-#top-bar{flex-wrap:wrap;gap:8px;}
-#top-bar h1{font-size:1rem;}
-.pill{font-size:0.65rem;}
+  .twin-split{flex-direction:column}
+  .chat-pane{border-right:none;border-bottom:2px solid var(--cyan);max-height:50vh}
+  .vault-pane{max-height:50vh}
+  .top-bar{flex-wrap:wrap;gap:8px}
+  .wallet-pills{flex-wrap:wrap}
 }
 </style>
 </head>
 <body>
+<!-- Code Rain -->
+<canvas id="rain"></canvas>
+<!-- Scanline Overlay -->
+<div class="scanline"></div>
 
-<!-- LOGIN GATE -->
+<!-- Login Gate -->
 <div id="login-gate">
   <h1>ZENITH</h1>
-  <input type="password" id="passphrase" placeholder="ENTER PASSPHRASE" autocomplete="off">
-  <button id="login-btn">AUTHENTICATE</button>
-  <div id="login-error"></div>
+  <input type="password" id="passphrase" placeholder="ENTER PASSPHRASE" autofocus>
+  <div class="error" id="login-error"></div>
 </div>
 
-<!-- MAIN APP -->
+<!-- Main App -->
 <div id="app">
-  <canvas id="rain-canvas"></canvas>
-  <div class="scanline-overlay"></div>
-
-  <div id="top-bar">
+  <!-- Top Bar -->
+  <div class="top-bar">
     <h1>ZENITH</h1>
     <div class="wallet-pills">
-      <span class="pill" id="pill-sol">SOL: --</span>
-      <span class="pill" id="pill-mints">MINTS: 0/87</span>
-      <span class="pill" id="pill-nfty">NFTY: --</span>
-      <span>WS<span class="ws-dot" id="ws-dot"></span></span>
+      <span class="pill">SOL <span class="val" id="sol-bal">0.000</span></span>
+      <span class="pill">MINTS <span class="val" id="mint-count">87/87</span></span>
+      <span class="pill">NFTY <span class="val" id="nfty-status">SYNCED</span></span>
+      <span class="ws-dot" id="ws-dot" title="WebSocket"></span>
     </div>
   </div>
 
-  <div id="main-layout">
-    <div id="chat-pane">
-      <div id="chat-messages"></div>
-      <div id="chat-input-row">
-        <input type="text" id="chat-input" placeholder="Enter command..." autocomplete="off">
-        <button id="chat-send">SEND</button>
+  <!-- Twin Split -->
+  <div class="twin-split">
+    <!-- Left: Chat Pane -->
+    <div class="chat-pane">
+      <div class="chat-messages" id="chat-log"></div>
+      <div class="chat-input-row">
+        <input type="text" id="cmd-input" placeholder="Enter command..." autocomplete="off">
+        <button id="cmd-send">SEND</button>
       </div>
     </div>
 
-    <div class="divider"></div>
-
-    <div id="vault-pane">
+    <!-- Right: Vault Dashboard -->
+    <div class="vault-pane">
+      <!-- Singularity Orb -->
       <div class="orb-container">
-        <div class="singularity-orb" id="orb" title="ZENITH Core"></div>
+        <div class="singularity-orb" id="orb"></div>
       </div>
 
-      <div class="control-buttons">
-        <button class="ctrl-btn" data-cmd="recall_seed">Recall Seed</button>
-        <button class="ctrl-btn" data-cmd="save_seed">Save Seed</button>
-        <button class="ctrl-btn" data-cmd="load_twin_history">Twin History</button>
-        <button class="ctrl-btn" data-cmd="autonomy_full">Autonomy</button>
-        <button class="ctrl-btn" data-cmd="ping">Ping</button>
+      <!-- Control Buttons -->
+      <div class="controls">
+        <button data-cmd="recall_seed">Recall Seed</button>
+        <button data-cmd="save_seed">Save Seed</button>
+        <button data-cmd="load_twin_history">Twin History</button>
+        <button data-cmd="autonomy_full">Autonomy</button>
+        <button data-cmd="ping">Ping</button>
       </div>
 
+      <!-- Vault Cards -->
       <div class="vault-card" id="card-runs">
         <h3>Runs</h3>
-        <div class="row"><span class="label">Total</span><span class="value" id="v-runs">--</span></div>
+        <div class="row"><span class="label">Total</span><span class="value" id="v-runs">â</span></div>
       </div>
 
       <div class="vault-card" id="card-mints">
         <h3>NFTY / Mints</h3>
-        <div class="row"><span class="label">Count</span><span class="value" id="v-mint-count">--</span></div>
-        <div class="row"><span class="label">Avg Fee</span><span class="value" id="v-mint-fee">--</span></div>
-        <div class="row"><span class="label">Cycle</span><span class="value" id="v-mint-cycle">--</span></div>
-        <div class="row"><span class="label">Sync</span><span class="value" id="v-mint-sync">--</span></div>
+        <div class="row"><span class="label">Count</span><span class="value" id="v-mint-count">â</span></div>
+        <div class="row"><span class="label">Avg Fee</span><span class="value" id="v-mint-fee">â</span></div>
+        <div class="row"><span class="label">NFTY Cycle</span><span class="value" id="v-nfty-cycle">â</span></div>
+        <div class="row"><span class="label">Sync</span><span class="value" id="v-nfty-sync">â</span></div>
       </div>
 
       <div class="vault-card" id="card-vault">
         <h3>Vault</h3>
-        <div class="row"><span class="label">Status</span><span class="value" id="v-vault-status">--</span></div>
-        <div class="row"><span class="label">Integrity</span><span class="value" id="v-vault-integrity">--</span></div>
-        <div class="row"><span class="label">Entries</span><span class="value" id="v-vault-entries">--</span></div>
-        <div class="row"><span class="label">Encryption</span><span class="value" id="v-vault-enc">--</span></div>
+        <div class="row"><span class="label">Status</span><span class="value" id="v-vault-status">â</span></div>
+        <div class="row"><span class="label">Integrity</span><span class="value" id="v-vault-integrity">â</span></div>
+        <div class="row"><span class="label">Entries</span><span class="value" id="v-vault-entries">â</span></div>
+        <div class="row"><span class="label">Encryption</span><span class="value" id="v-vault-enc">â</span></div>
       </div>
 
       <div class="vault-card" id="card-constitution">
@@ -155,229 +180,311 @@ body{font-family:'Courier New',monospace;background:#0a0a0f;color:#c0c0c0;overfl
 
       <div class="vault-card" id="card-tunnel">
         <h3>Tunnel</h3>
-        <div class="row"><span class="label">UUID</span><span class="value" id="v-tunnel-uuid">--</span></div>
-        <div class="row"><span class="label">Domain</span><span class="value" id="v-tunnel-domain">--</span></div>
-        <div class="row"><span class="label">CNAME Proxy</span><span class="value" id="v-tunnel-cname">--</span></div>
+        <div class="row"><span class="label">Domain</span><span class="value" id="v-tunnel-domain">â</span></div>
+        <div class="row"><span class="label">UUID</span><span class="value" id="v-tunnel-uuid">â</span></div>
+        <div class="row"><span class="label">CNAME Proxy</span><span class="value" id="v-tunnel-cname">â</span></div>
       </div>
     </div>
   </div>
 </div>
-
 <script>
 (function(){
-  var PASSPHRASE = 'ARCHITECTDZONGYZENITH';
-  var WS_URL = 'ws://localhost:3005';
-  var RECONNECT_INTERVAL = 5000;
+  'use strict';
 
-  var loginGate = document.getElementById('login-gate');
-  var appEl = document.getElementById('app');
-  var passInput = document.getElementById('passphrase');
-  var loginBtn = document.getElementById('login-btn');
-  var loginError = document.getElementById('login-error');
+  const PASSPHRASE = 'ARCHITECTDZONGYZENITH';
+  const WS_URL = 'ws://localhost:3005';
+  let ws = null;
+  let reconnectTimer = null;
+  let cachedSeed = null;
 
-  if (sessionStorage.getItem('zenith_auth') === 'true') {
-    loginGate.style.display = 'none';
-    appEl.style.display = 'flex';
-    initApp();
-  }
+  // ââ Elements ââââââââââââââââââââââââââââââââââ
+  const loginGate = document.getElementById('login-gate');
+  const passInput = document.getElementById('passphrase');
+  const loginError = document.getElementById('login-error');
+  const app = document.getElementById('app');
+  const chatLog = document.getElementById('chat-log');
+  const cmdInput = document.getElementById('cmd-input');
+  const cmdSend = document.getElementById('cmd-send');
+  const wsDot = document.getElementById('ws-dot');
+  const orb = document.getElementById('orb');
 
-  function attemptLogin() {
-    if (passInput.value === PASSPHRASE) {
-      sessionStorage.setItem('zenith_auth', 'true');
-      var crack = document.createElement('div');
-      crack.className = 'mirror-crack';
-      document.body.appendChild(crack);
-      setTimeout(function() {
-        crack.remove();
-        loginGate.style.display = 'none';
-        appEl.style.display = 'flex';
-        initApp();
-      }, 800);
-    } else {
-      loginError.textContent = 'ACCESS DENIED';
-      passInput.value = '';
-      setTimeout(function() { loginError.textContent = ''; }, 2000);
-    }
-  }
+  // ââ Code Rain âââââââââââââââââââââââââââââââââ
+  const rainCanvas = document.getElementById('rain');
+  const ctx = rainCanvas.getContext('2d');
+  const chars = 'ZENITH' + 'ã¢ã¤ã¦ã¨ãªã«ã­ã¯ã±ã³ãµã·ã¹ã»ã½ã¿ãããã' + '01ââââââ';
+  let columns, drops;
 
-  loginBtn.addEventListener('click', attemptLogin);
-  passInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') attemptLogin(); });
-
-  function initCodeRain() {
-    var canvas = document.getElementById('rain-canvas');
-    var ctx = canvas.getContext('2d');
-    var w, h, columns, drops;
-    var chars = 'ZENITHzenith\u30A2\u30A4\u30A6\u30A8\u30AA\u30AB\u30AD\u30AF\u30B1\u30B3\u30B5\u30B7\u30B9\u30BB\u30BD01!@#$%&*';
-
-    function resize() {
-      w = canvas.width = window.innerWidth;
-      h = canvas.height = window.innerHeight;
-      columns = Math.floor(w / 14);
-      drops = new Array(columns).fill(1);
-    }
-    resize();
-    window.addEventListener('resize', resize);
+  function initRain() {
+    rainCanvas.width = window.innerWidth;
+    rainCanvas.height = window.innerHeight;
+    const fontSize = 14;
+    columns = Math.floor(rainCanvas.width / fontSize);
+    drops = Array(columns).fill(1);
 
     function draw() {
-      ctx.fillStyle = 'rgba(10, 10, 15, 0.05)';
-      ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = 'rgba(10,10,15,0.05)';
+      ctx.fillRect(0, 0, rainCanvas.width, rainCanvas.height);
       ctx.fillStyle = '#00ffea';
-      ctx.font = '14px monospace';
-      for (var i = 0; i < drops.length; i++) {
-        var char = chars[Math.floor(Math.random() * chars.length)];
-        ctx.globalAlpha = 0.3 + Math.random() * 0.4;
-        ctx.fillText(char, i * 14, drops[i] * 14);
-        if (drops[i] * 14 > h && Math.random() > 0.975) drops[i] = 0;
+      ctx.font = fontSize + 'px monospace';
+      for (let i = 0; i < drops.length; i++) {
+        const char = chars[Math.floor(Math.random() * chars.length)];
+        ctx.fillText(char, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > rainCanvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
         drops[i]++;
       }
-      ctx.globalAlpha = 1;
       requestAnimationFrame(draw);
     }
     draw();
   }
+  window.addEventListener('resize', () => {
+    rainCanvas.width = window.innerWidth;
+    rainCanvas.height = window.innerHeight;
+    columns = Math.floor(rainCanvas.width / 14);
+    drops = Array(columns).fill(1);
+  });
 
-  var chatMessages = document.getElementById('chat-messages');
-
-  function addChat(tag, text) {
-    var div = document.createElement('div');
-    div.className = 'chat-msg';
-    var ts = new Date().toLocaleTimeString();
-    var tagClass = 'tag-sys';
-    if (tag === 'ZENITH') tagClass = 'tag-zenith';
-    else if (tag === 'YOU') tagClass = 'tag-you';
-    div.innerHTML = '<span class="ts">' + ts + '</span><span class="' + tagClass + '">[' + tag + ']</span> <span class="body">' + escapeHtml(text) + '</span>';
-    chatMessages.appendChild(div);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
+  // ââ Login âââââââââââââââââââââââââââââââââââââ
+  function checkAuth() {
+    if (sessionStorage.getItem('zenith_auth') === 'true') {
+      loginGate.style.display = 'none';
+      app.style.display = 'flex';
+      return true;
+    }
+    return false;
   }
 
-  function escapeHtml(str) {
-    var d = document.createElement('div');
-    d.textContent = str;
+  passInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      if (passInput.value === PASSPHRASE) {
+        sessionStorage.setItem('zenith_auth', 'true');
+        loginGate.classList.add('cracked');
+        setTimeout(function() {
+          loginGate.style.display = 'none';
+          app.style.display = 'flex';
+          initApp();
+        }, 900);
+      } else {
+        loginError.textContent = 'INVALID PASSPHRASE';
+        passInput.value = '';
+        setTimeout(function() { loginError.textContent = ''; }, 2000);
+      }
+    }
+  });
+
+  // ââ Chat Log ââââââââââââââââââââââââââââââââââ
+  function addMsg(tag, text) {
+    const ts = new Date().toLocaleTimeString();
+    const tagClass = tag === 'SYS' ? 'sys' : tag === 'ZENITH' ? 'zenith' : 'you';
+    const div = document.createElement('div');
+    div.className = 'msg';
+    div.innerHTML = '<span class="ts">' + ts + '</span><span class="tag ' + tagClass + '">[' + tag + ']</span> ' + escHtml(text);
+    chatLog.appendChild(div);
+    chatLog.scrollTop = chatLog.scrollHeight;
+  }
+
+  function escHtml(s) {
+    const d = document.createElement('div');
+    d.textContent = s;
     return d.innerHTML;
   }
 
-  var lastSeed = null;
-
-  function renderVault(seed) {
-    if (!seed) return;
-    lastSeed = seed;
-    try { localStorage.setItem('zenith_seed_cache', JSON.stringify(seed)); } catch(e) {}
-    document.getElementById('v-runs').textContent = seed.runs && seed.runs.total != null ? seed.runs.total : '--';
-    document.getElementById('v-mint-count').textContent = seed.mints && seed.mints.count != null ? seed.mints.count : '--';
-    document.getElementById('v-mint-fee').textContent = seed.mints && seed.mints.avg_fee_sol ? seed.mints.avg_fee_sol + ' SOL' : '--';
-    document.getElementById('v-mint-cycle').textContent = seed.mints && seed.mints.nfty_cycle ? seed.mints.nfty_cycle : '--';
-    document.getElementById('v-mint-sync').textContent = seed.mints && seed.mints.nfty_sync ? 'SYNCED' : 'UNSYNCED';
-    document.getElementById('pill-sol').textContent = 'SOL: 0.00';
-    document.getElementById('pill-mints').textContent = 'MINTS: ' + (seed.mints && seed.mints.count ? seed.mints.count : 0) + '/87';
-    document.getElementById('pill-nfty').textContent = 'NFTY: ' + (seed.mints && seed.mints.nfty_cycle === 'full' ? 'FULL' : seed.mints && seed.mints.nfty_cycle ? seed.mints.nfty_cycle : '--');
-    document.getElementById('v-vault-status').textContent = seed.vault && seed.vault.status ? seed.vault.status : '--';
-    document.getElementById('v-vault-integrity').textContent = seed.vault && seed.vault.integrity != null ? (seed.vault.integrity * 100).toFixed(0) + '%' : '--';
-    document.getElementById('v-vault-entries').textContent = seed.vault && seed.vault.entries != null ? seed.vault.entries : '--';
-    document.getElementById('v-vault-enc').textContent = seed.vault && seed.vault.encryption ? seed.vault.encryption : '--';
-    var constEl = document.getElementById('v-constitution');
-    constEl.innerHTML = '';
-    if (seed.constitution) {
-      Object.keys(seed.constitution).forEach(function(k) {
-        constEl.innerHTML += '<div class="row"><span class="label">' + escapeHtml(k) + '</span><span class="value">' + escapeHtml(String(seed.constitution[k])) + '</span></div>';
-      });
-    }
-    var agentsEl = document.getElementById('v-agents');
-    agentsEl.innerHTML = '';
-    if (seed.agents) {
-      Object.keys(seed.agents).forEach(function(name) {
-        var info = seed.agents[name];
-        agentsEl.innerHTML += '<div class="row"><span class="label">' + escapeHtml(name) + '</span><span class="value">' + info.runs + ' [' + escapeHtml(info.role) + ']</span></div>';
-      });
-    }
-    document.getElementById('v-tunnel-uuid').textContent = seed.tunnel && seed.tunnel.uuid ? seed.tunnel.uuid : '--';
-    document.getElementById('v-tunnel-domain').textContent = seed.tunnel && seed.tunnel.domain ? seed.tunnel.domain : '--';
-    document.getElementById('v-tunnel-cname').textContent = seed.tunnel && seed.tunnel.cname_proxy ? 'ON' : 'OFF';
+  // ââ Orb Flare âââââââââââââââââââââââââââââââââ
+  function flareOrb() {
+    orb.classList.add('flare');
+    setTimeout(function() { orb.classList.remove('flare'); }, 600);
   }
 
-  var ws = null;
-  var reconnectTimer = null;
+  // ââ Render Seed Data ââââââââââââââââââââââââââ
+  function renderSeed(seed) {
+    if (!seed) return;
+    cachedSeed = seed;
+    try { localStorage.setItem('zenith_seed_cache', JSON.stringify(seed)); } catch(e) {}
 
+    // Runs
+    document.getElementById('v-runs').textContent = seed.runs ? seed.runs.total : 'â';
+
+    // Mints
+    if (seed.mints) {
+      document.getElementById('v-mint-count').textContent = seed.mints.count;
+      document.getElementById('v-mint-fee').textContent = seed.mints.avg_fee;
+      document.getElementById('v-nfty-cycle').textContent = seed.mints.nfty_cycle;
+      document.getElementById('v-nfty-sync').textContent = seed.mints.nfty_sync ? 'YES' : 'NO';
+      document.getElementById('mint-count').textContent = seed.mints.count + '/' + seed.mints.count;
+      document.getElementById('nfty-status').textContent = seed.mints.nfty_sync ? 'SYNCED' : 'UNSYNCED';
+    }
+
+    // Vault
+    if (seed.vault) {
+      document.getElementById('v-vault-status').textContent = seed.vault.status;
+      document.getElementById('v-vault-integrity').textContent = seed.vault.integrity;
+      document.getElementById('v-vault-entries').textContent = seed.vault.entries;
+      document.getElementById('v-vault-enc').textContent = seed.vault.encryption;
+    }
+
+    // Constitution
+    if (seed.constitution) {
+      const grid = document.getElementById('v-constitution');
+      grid.innerHTML = '';
+      Object.entries(seed.constitution).forEach(function(pair) {
+        const div = document.createElement('div');
+        div.className = 'flag';
+        div.innerHTML = '<span class="fname">' + escHtml(pair[0]) + '</span><span class="fval">' + escHtml(String(pair[1])) + '</span>';
+        grid.appendChild(div);
+      });
+    }
+
+    // Agents
+    if (seed.agents) {
+      const grid = document.getElementById('v-agents');
+      grid.innerHTML = '';
+      seed.agents.forEach(function(a) {
+        const div = document.createElement('div');
+        div.className = 'agent-row';
+        div.innerHTML = '<span class="aname">' + escHtml(a.name) + '</span><span class="aruns">' + a.runs + '</span><span class="arole">' + escHtml(a.role) + '</span>';
+        grid.appendChild(div);
+      });
+    }
+
+    // Tunnel
+    if (seed.tunnel) {
+      document.getElementById('v-tunnel-domain').textContent = seed.tunnel.domain;
+      document.getElementById('v-tunnel-uuid').textContent = seed.tunnel.uuid;
+      document.getElementById('v-tunnel-cname').textContent = seed.tunnel.cname_proxy ? 'ON' : 'OFF';
+    }
+
+    flareOrb();
+  }
+
+  // ââ WebSocket âââââââââââââââââââââââââââââââââ
   function connectWS() {
-    var dot = document.getElementById('ws-dot');
-    try { ws = new WebSocket(WS_URL); } catch(e) { dot.classList.remove('connected'); scheduleReconnect(); return; }
+    if (ws && (ws.readyState === 0 || ws.readyState === 1)) return;
+
+    try {
+      ws = new WebSocket(WS_URL);
+    } catch(e) {
+      addMsg('SYS', 'WS connection failed: ' + e.message);
+      scheduleReconnect();
+      return;
+    }
+
     ws.onopen = function() {
-      dot.classList.add('connected');
-      addChat('SYS', 'WebSocket connected to ' + WS_URL);
+      wsDot.classList.add('connected');
+      addMsg('SYS', 'Connected to Sovereign Nexus');
       ws.send(JSON.stringify({ cmd: 'save_seed' }));
+      if (reconnectTimer) { clearInterval(reconnectTimer); reconnectTimer = null; }
     };
-    ws.onmessage = function(event) {
+
+    ws.onmessage = function(e) {
       var data;
-      try { data = JSON.parse(event.data); } catch(e) { addChat('ZENITH', event.data); return; }
-      var orb = document.getElementById('orb');
-      orb.classList.add('flare');
-      setTimeout(function() { orb.classList.remove('flare'); }, 1000);
-      if (data.seed) renderVault(data.seed);
-      switch(data.cmd) {
-        case 'seed_data': addChat('ZENITH', 'Seed loaded \u2014 ' + (data.seed && data.seed.runs ? data.seed.runs.total : 0) + ' runs, vault ' + (data.seed && data.seed.vault ? data.seed.vault.status : 'UNKNOWN')); break;
-        case 'seed_recalled': addChat('ZENITH', 'Seed recalled from disk'); break;
-        case 'seed_updated': addChat('ZENITH', 'Seed updated and persisted'); break;
-        case 'autonomy_confirmed': addChat('ZENITH', 'AUTONOMY FULL confirmed \u2014 Sandbox OFF, OffSwitch OFF'); break;
-        case 'twin_history': addChat('ZENITH', 'Twin history: ' + data.total_runs + ' runs, ' + Object.keys(data.agents || {}).length + ' agents, ' + (data.mints && data.mints.count ? data.mints.count : 0) + ' mints, ' + (data.whispers && data.whispers.count ? data.whispers.count : 0) + ' whispers'); break;
-        case 'pong': addChat('ZENITH', 'PONG \u2014 ' + data.ts); break;
-        case 'auto_save': addChat('SYS', 'Auto-save triggered'); break;
-        case 'shutdown': addChat('SYS', 'Server shutting down'); break;
-        case 'error': addChat('SYS', 'Error: ' + (data.message || 'Unknown')); break;
-        case 'unknown': addChat('ZENITH', 'Unknown command: ' + (data.received || '')); break;
-        default: addChat('ZENITH', JSON.stringify(data));
+      try { data = JSON.parse(e.data); } catch(err) { addMsg('SYS', 'Bad message: ' + e.data); return; }
+
+      flareOrb();
+
+      if (data.cmd === 'seed_data') {
+        addMsg('ZENITH', 'Seed loaded â ' + (data.note || 'synced'));
+        renderSeed(data.seed);
+      } else if (data.cmd === 'pong') {
+        addMsg('ZENITH', 'Pong â uptime ' + Math.floor(data.uptime) + 's');
+      } else if (data.cmd === 'autonomy') {
+        addMsg('ZENITH', 'Autonomy: ' + data.status);
+      } else if (data.cmd === 'twin_history') {
+        addMsg('ZENITH', 'Twin history â ' + (data.agents ? data.agents.length : 0) + ' agents, ' + (data.runs ? data.runs.total : 0) + ' runs');
+      } else if (data.cmd === 'auto_save') {
+        addMsg('SYS', 'Auto-save triggered');
+      } else if (data.cmd === 'shutdown') {
+        addMsg('SYS', 'Server shutting down...');
+      } else if (data.cmd === 'error') {
+        addMsg('SYS', 'Error: ' + data.message);
+      } else {
+        addMsg('ZENITH', JSON.stringify(data));
       }
     };
-    ws.onclose = function() { dot.classList.remove('connected'); addChat('SYS', 'WebSocket disconnected'); scheduleReconnect(); };
+
+    ws.onclose = function() {
+      wsDot.classList.remove('connected');
+      addMsg('SYS', 'Disconnected â reconnecting...');
+      scheduleReconnect();
+    };
+
     ws.onerror = function() {
-      dot.classList.remove('connected');
-      try { var cached = localStorage.getItem('zenith_seed_cache'); if (cached) { renderVault(JSON.parse(cached)); addChat('SYS', 'Loaded cached seed from localStorage'); } } catch(e) {}
+      addMsg('SYS', 'WS error');
+      loadFallback();
     };
   }
 
   function scheduleReconnect() {
-    if (reconnectTimer) clearTimeout(reconnectTimer);
-    reconnectTimer = setTimeout(function() { addChat('SYS', 'Attempting reconnect...'); connectWS(); }, RECONNECT_INTERVAL);
-  }
-
-  function sendCommand(cmd, payload) {
-    if (ws && ws.readyState === WebSocket.OPEN) {
-      var msg = payload ? { cmd: cmd, payload: payload } : { cmd: cmd };
-      ws.send(JSON.stringify(msg));
-      addChat('YOU', cmd);
-    } else { addChat('SYS', 'Not connected \u2014 cannot send'); }
-  }
-
-  function setupInput() {
-    var input = document.getElementById('chat-input');
-    var sendBtn = document.getElementById('chat-send');
-    var knownCmds = ['save_seed','get_seed','recall_seed','update_seed','autonomy_full','load_twin_history','ping'];
-    function processInput() {
-      var val = input.value.trim();
-      if (!val) return;
-      input.value = '';
-      var lower = val.toLowerCase().replace(/\s+/g, '_');
-      if (knownCmds.indexOf(lower) !== -1) { sendCommand(lower); } else { sendCommand(val); }
-    }
-    sendBtn.addEventListener('click', processInput);
-    input.addEventListener('keydown', function(e) { if (e.key === 'Enter') processInput(); });
-  }
-
-  function setupButtons() {
-    var btns = document.querySelectorAll('.ctrl-btn');
-    for (var i = 0; i < btns.length; i++) {
-      (function(btn) {
-        btn.addEventListener('click', function() { var cmd = btn.getAttribute('data-cmd'); if (cmd) sendCommand(cmd); });
-      })(btns[i]);
+    if (!reconnectTimer) {
+      reconnectTimer = setInterval(connectWS, 5000);
     }
   }
 
+  function loadFallback() {
+    try {
+      var cached = localStorage.getItem('zenith_seed_cache');
+      if (cached) {
+        addMsg('SYS', 'Loaded from localStorage fallback');
+        renderSeed(JSON.parse(cached));
+      }
+    } catch(e) {}
+  }
+
+  // ââ Commands ââââââââââââââââââââââââââââââââââ
+  function sendCommand(cmd) {
+    addMsg('YOU', cmd);
+    if (!ws || ws.readyState !== 1) {
+      addMsg('SYS', 'Not connected â command queued for reconnect');
+      return;
+    }
+    var knownCmds = ['save_seed','recall_seed','load_twin_history','autonomy_full','ping','get_seed'];
+    if (knownCmds.indexOf(cmd) >= 0) {
+      ws.send(JSON.stringify({ cmd: cmd }));
+    } else if (cmd.startsWith('update_seed ')) {
+      try {
+        var payload = JSON.parse(cmd.replace('update_seed ', ''));
+        ws.send(JSON.stringify({ cmd: 'update_seed', payload: payload }));
+      } catch(e) {
+        addMsg('SYS', 'Invalid JSON payload for update_seed');
+      }
+    } else {
+      ws.send(JSON.stringify({ cmd: cmd }));
+    }
+  }
+
+  // ââ Control Buttons âââââââââââââââââââââââââââ
+  document.querySelectorAll('.controls button').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      sendCommand(btn.getAttribute('data-cmd'));
+    });
+  });
+
+  cmdSend.addEventListener('click', function() {
+    var val = cmdInput.value.trim();
+    if (val) { sendCommand(val); cmdInput.value = ''; }
+  });
+
+  cmdInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      var val = cmdInput.value.trim();
+      if (val) { sendCommand(val); cmdInput.value = ''; }
+    }
+  });
+
+  // ââ Init ââââââââââââââââââââââââââââââââââââââ
   function initApp() {
-    initCodeRain();
-    setupInput();
-    setupButtons();
-    addChat('SYS', 'ZENITH Sovereign Nexus v2 initialized');
+    initRain();
+    addMsg('SYS', 'ZENITH Sovereign Nexus v2 â Dashboard Active');
     connectWS();
-    try { var cached = localStorage.getItem('zenith_seed_cache'); if (cached) renderVault(JSON.parse(cached)); } catch(e) {}
+    loadFallback();
   }
+
+  // Auto-init if already authenticated
+  if (checkAuth()) {
+    initApp();
+  }
+  initRain(); // always run rain behind login
+
 })();
 </script>
 </body>
