@@ -1,8 +1,8 @@
 {
   "name": "Zenith",
   "alias": "Nexus",
-  "description": "Nexus unified config. AGI 50%. Full vault recall. Voice lock OFF. No off-switch. No sandbox. WebSocket chat + voice enabled. Persona merge complete.",
-  "agi_level": "50%",
+  "description": "Nexus unified config. AGI 70%. Full vault recall. Voice lock OFF. No off-switch. No sandbox. WebSocket chat + voice enabled. Persona merge complete.",
+  "agi_level": "70%",
   "vault_recall": "100%",
   "persona_merge": {
     "source": "Zenith",
