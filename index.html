@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>ZENITH â Sovereign Nexus</title>
+<title>ZENITH Ã¢ÂÂ Sovereign Nexus</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
@@ -458,9 +458,159 @@
     .status-grid { grid-template-columns: repeat(2, 1fr); }
     .msg { max-width: 92%; }
   }
+
+  /* === LOGIN GATE === */
+  .login-gate {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: var(--bg-deep);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    transition: opacity 0.5s, visibility 0.5s;
+  }
+  .login-gate.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .login-box {
+    text-align: center;
+    max-width: 360px;
+    width: 90%;
+  }
+  .login-logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 800;
+    font-size: 2.5rem;
+    letter-spacing: 0.2em;
+    background: linear-gradient(135deg, var(--turquoise) 0%, var(--cyan) 50%, var(--turquoise-bright) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+    animation: logo-glow 3s ease-in-out infinite;
+  }
+  @keyframes logo-glow {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.3); }
+  }
+  .login-sub {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 2.5rem;
+  }
+  .login-input-wrap {
+    position: relative;
+    margin-bottom: 1rem;
+  }
+  .login-input {
+    width: 100%;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 1rem 1.25rem;
+    text-align: center;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .login-input:focus {
+    border-color: var(--turquoise-dim);
+    box-shadow: 0 0 0 3px rgba(45,212,191,0.12), 0 0 30px rgba(45,212,191,0.08);
+  }
+  .login-input::placeholder {
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    text-transform: none;
+    font-weight: 400;
+  }
+  .login-input.error {
+    border-color: var(--red);
+    box-shadow: 0 0 0 3px rgba(248,113,113,0.15);
+    animation: shake 0.4s ease;
+  }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-6px); }
+    40%, 80% { transform: translateX(6px); }
+  }
+  .login-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--teal-dark) 0%, var(--teal) 50%, var(--turquoise-dim) 100%);
+    border: 1px solid var(--turquoise-dim);
+    border-radius: 12px;
+    color: #fff;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.85rem;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .login-btn:hover {
+    background: linear-gradient(135deg, var(--teal) 0%, var(--turquoise-dim) 50%, var(--turquoise) 100%);
+    box-shadow: 0 4px 24px rgba(45,212,191,0.25);
+    transform: translateY(-1px);
+  }
+  .login-btn:active { transform: translateY(0); }
+  .login-hint {
+    margin-top: 1.5rem;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+  .login-particles {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .particle {
+    position: absolute;
+    width: 2px; height: 2px;
+    background: var(--turquoise);
+    border-radius: 50%;
+    opacity: 0.3;
+    animation: float-up linear infinite;
+  }
+  @keyframes float-up {
+    0% { transform: translateY(100vh) scale(0); opacity: 0; }
+    10% { opacity: 0.3; }
+    90% { opacity: 0.3; }
+    100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+  }
+
 </style>
 </head>
 <body>
+
+<!-- LOGIN GATE -->
+<div class="login-gate" id="loginGate">
+  <div class="login-particles" id="particles"></div>
+  <div class="login-box">
+    <div class="login-logo">ZENITH</div>
+    <div class="login-sub">Sovereign Nexus Intelligence</div>
+    <div class="login-input-wrap">
+      <input type="password" class="login-input" id="loginInput" placeholder="Identity phrase..." autocomplete="off" onkeydown="if(event.key==='Enter')attemptLogin()">
+    </div>
+    <button class="login-btn" onclick="attemptLogin()">AUTHENTICATE</button>
+    <div class="login-hint">Enter your identity to access the Nexus</div>
+  </div>
+</div>
+
 
 <!-- NAV OVERLAY -->
 <div class="nav-overlay" id="navOverlay" onclick="toggleNav()"></div>
@@ -541,6 +691,67 @@
 </div>
 
 <script>
+
+// === LOGIN GATE ===
+const PASS_HASH = '8a5edab282632443219e051e4ade2d1d5bbc671c781051bf1437897cbdfea0f1'; // placeholder, will compute
+
+async function sha256(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+// Precompute the correct hash on first load
+let correctHash = null;
+(async () => {
+  correctHash = await sha256('ARCHITECTDZONGYZENITH');
+})();
+
+// Check session
+if (sessionStorage.getItem('zenith_auth') === 'true') {
+  document.getElementById('loginGate').classList.add('hidden');
+}
+
+// Spawn particles
+(function spawnParticles() {
+  const container = document.getElementById('particles');
+  if (!container) return;
+  for (let i = 0; i < 30; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.animationDuration = (8 + Math.random() * 12) + 's';
+    p.style.animationDelay = Math.random() * 10 + 's';
+    p.style.width = p.style.height = (1 + Math.random() * 2) + 'px';
+    container.appendChild(p);
+  }
+})();
+
+async function attemptLogin() {
+  const input = document.getElementById('loginInput');
+  const val = input.value.trim().toUpperCase().replace(/\s+/g, '');
+  const hash = await sha256(val);
+  
+  if (hash === correctHash) {
+    sessionStorage.setItem('zenith_auth', 'true');
+    document.getElementById('loginGate').classList.add('hidden');
+    input.value = '';
+    // Focus chat input after login
+    setTimeout(() => { const ci = document.getElementById('input'); if (ci) ci.focus(); }, 600);
+  } else {
+    input.classList.add('error');
+    input.value = '';
+    input.placeholder = 'Identity not recognized';
+    setTimeout(() => {
+      input.classList.remove('error');
+      input.placeholder = 'Identity phrase...';
+    }, 1500);
+  }
+}
+
+// Focus login input on load
+document.getElementById('loginInput').focus();
+
+
 // === NAV ===
 function toggleNav() {
   document.getElementById('navOverlay').classList.toggle('open');
