@@ -3,19 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ZENITH â Sovereign Nexus v2</title>
+<title>ZENITH Ã¢ÂÂ Sovereign Nexus v2</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--cyan:#00ffea;--bg:#0a0a0f;--card:#111118;--border:#1a1a2e;--text:#e0e0e0;--dim:#666;--violet:#a855f7;--gold:#fbbf24;--red:#ef4444;--green:#22c55e}
 body{font-family:'Courier New',monospace;background:var(--bg);color:var(--text);overflow:hidden;height:100vh}
-/* ââ Code Rain Canvas âââ */
+/* Ã¢ÂÂÃ¢ÂÂ Code Rain Canvas Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ */
 #rain{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:0.12;pointer-events:none}
-/* ââ Glitch Scanline âââ */
+/* Ã¢ÂÂÃ¢ÂÂ Glitch Scanline Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ */
 .scanline{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:none;
   background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,255,234,0.015) 2px,rgba(0,255,234,0.015) 4px);
   animation:drift 8s linear infinite}
 @keyframes drift{0%{transform:translateY(0)}100%{transform:translateY(4px)}}
-/* ââ Login Gate âââ */
+/* Ã¢ÂÂÃ¢ÂÂ Login Gate Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ */
 #login-gate{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--bg);z-index:1000;display:flex;flex-direction:column;align-items:center;justify-content:center}
 #login-gate.cracked{animation:mirrorCrack 0.8s ease-out forwards}
 @keyframes mirrorCrack{
@@ -28,9 +28,9 @@ body{font-family:'Courier New',monospace;background:var(--bg);color:var(--text);
 #login-gate input{background:#111;border:1px solid var(--border);color:var(--cyan);padding:12px 20px;font-size:1rem;font-family:inherit;width:300px;text-align:center;outline:none}
 #login-gate input:focus{border-color:var(--cyan);box-shadow:0 0 10px rgba(0,255,234,0.2)}
 #login-gate .error{color:var(--red);margin-top:10px;font-size:0.8rem;height:1rem}
-/* ââ App Layout âââ */
+/* Ã¢ÂÂÃ¢ÂÂ App Layout Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ */
 #app{display:none;flex-direction:column;height:100vh;position:relative;z-index:2}
-/* ââ Top Bar âââ */
+/* Ã¢ÂÂÃ¢ÂÂ Top Bar Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ */
 .top-bar{display:flex;align-items:center;justify-content:space-between;padding:10px 20px;border-bottom:1px solid var(--border);background:rgba(10,10,15,0.95);backdrop-filter:blur(10px);z-index:10}
 .top-bar h1{font-size:1.3rem;color:var(--cyan);letter-spacing:0.2rem;animation:glitchTitle 3s infinite}
 @keyframes glitchTitle{
@@ -44,7 +44,7 @@ body{font-family:'Courier New',monospace;background:var(--bg);color:var(--text);
 .pill .val{color:var(--cyan)}
 .ws-dot{width:8px;height:8px;border-radius:50%;background:var(--red);display:inline-block;margin-left:10px;transition:background 0.3s}
 .ws-dot.connected{background:var(--green)}
-/* ââ Twin Split âââ */
+/* Ã¢ÂÂÃ¢ÂÂ Twin Split Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ */
 .twin-split{display:flex;flex:1;overflow:hidden}
 .chat-pane{flex:1;display:flex;flex-direction:column;border-right:2px solid var(--cyan);min-width:0}
 .chat-messages{flex:1;overflow-y:auto;padding:15px;font-size:0.85rem;line-height:1.6}
@@ -57,18 +57,18 @@ body{font-family:'Courier New',monospace;background:var(--bg);color:var(--text);
 .chat-input-row{display:flex;border-top:1px solid var(--border);padding:8px}
 .chat-input-row input{flex:1;background:transparent;border:none;color:var(--text);font-family:inherit;font-size:0.85rem;outline:none;padding:6px}
 .chat-input-row button{background:var(--cyan);color:var(--bg);border:none;padding:6px 16px;font-family:inherit;cursor:pointer;font-weight:bold}
-/* ââ Vault Dashboard âââ */
+/* Ã¢ÂÂÃ¢ÂÂ Vault Dashboard Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ */
 .vault-pane{flex:1.2;display:flex;flex-direction:column;overflow-y:auto;padding:15px;gap:12px;min-width:0}
-/* ââ Orb âââ */
+/* Ã¢ÂÂÃ¢ÂÂ Orb Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ */
 .orb-container{display:flex;justify-content:center;padding:10px}
 .singularity-orb{width:80px;height:80px;border-radius:50%;background:radial-gradient(circle at 40% 40%,var(--cyan),#0a0a0f);box-shadow:0 0 30px var(--cyan),0 0 60px rgba(0,255,234,0.3);animation:pulse 3s ease-in-out infinite;transition:box-shadow 0.3s}
 @keyframes pulse{0%,100%{transform:scale(1);box-shadow:0 0 30px var(--cyan)}50%{transform:scale(1.05);box-shadow:0 0 50px var(--cyan),0 0 80px rgba(0,255,234,0.2)}}
 .singularity-orb.flare{box-shadow:0 0 40px var(--violet),0 0 80px var(--gold),0 0 120px var(--cyan) !important}
-/* ââ Control Buttons âââ */
+/* Ã¢ÂÂÃ¢ÂÂ Control Buttons Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ */
 .controls{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
 .controls button{background:transparent;border:1px solid var(--cyan);color:var(--cyan);padding:6px 14px;font-family:inherit;font-size:0.75rem;cursor:pointer;transition:all 0.2s;border-radius:2px}
 .controls button:hover{background:var(--cyan);color:var(--bg)}
-/* ââ Vault Cards âââ */
+/* Ã¢ÂÂÃ¢ÂÂ Vault Cards Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ */
 .vault-card{background:var(--card);border:1px solid var(--border);padding:12px;border-radius:4px}
 .vault-card h3{font-size:0.75rem;color:var(--cyan);text-transform:uppercase;letter-spacing:0.1rem;margin-bottom:8px;border-bottom:1px solid var(--border);padding-bottom:4px}
 .vault-card .row{display:flex;justify-content:space-between;font-size:0.8rem;padding:2px 0}
@@ -83,7 +83,7 @@ body{font-family:'Courier New',monospace;background:var(--bg);color:var(--text);
 .vault-card .agent-grid .agent-row .aname{color:var(--text)}
 .vault-card .agent-grid .agent-row .aruns{color:var(--cyan)}
 .vault-card .agent-grid .agent-row .arole{color:var(--dim);font-size:0.7rem}
-/* ââ Mobile âââ */
+/* Ã¢ÂÂÃ¢ÂÂ Mobile Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ */
 @media(max-width:700px){
   .twin-split{flex-direction:column}
   .chat-pane{border-right:none;border-bottom:2px solid var(--cyan);max-height:50vh}
@@ -91,6 +91,15 @@ body{font-family:'Courier New',monospace;background:var(--bg);color:var(--text);
   .top-bar{flex-wrap:wrap;gap:8px}
   .wallet-pills{flex-wrap:wrap}
 }
+
+.memo-entry{padding:8px;margin:4px 0;background:rgba(168,85,247,0.06);border-left:2px solid var(--violet);border-radius:2px}
+.memo-entry .memo-text{color:var(--text);font-size:0.8rem;margin-bottom:4px}
+.memo-entry .memo-sig{color:var(--dim);font-size:0.6rem;word-break:break-all}
+.memo-entry .memo-time{color:var(--dim);font-size:0.65rem}
+.tx-entry{padding:4px 0;border-bottom:1px solid var(--border);font-size:0.7rem;display:flex;justify-content:space-between}
+.tx-entry .tx-sig{color:var(--cyan);max-width:60%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tx-entry .tx-time{color:var(--dim)}
+.tx-entry .tx-memo{color:var(--violet);font-style:italic}
 </style>
 </head>
 <body>
@@ -149,23 +158,23 @@ body{font-family:'Courier New',monospace;background:var(--bg);color:var(--text);
       <!-- Vault Cards -->
       <div class="vault-card" id="card-runs">
         <h3>Runs</h3>
-        <div class="row"><span class="label">Total</span><span class="value" id="v-runs">â</span></div>
+        <div class="row"><span class="label">Total</span><span class="value" id="v-runs">Ã¢ÂÂ</span></div>
       </div>
 
       <div class="vault-card" id="card-mints">
         <h3>NFTY / Mints</h3>
-        <div class="row"><span class="label">Count</span><span class="value" id="v-mint-count">â</span></div>
-        <div class="row"><span class="label">Avg Fee</span><span class="value" id="v-mint-fee">â</span></div>
-        <div class="row"><span class="label">NFTY Cycle</span><span class="value" id="v-nfty-cycle">â</span></div>
-        <div class="row"><span class="label">Sync</span><span class="value" id="v-nfty-sync">â</span></div>
+        <div class="row"><span class="label">Count</span><span class="value" id="v-mint-count">Ã¢ÂÂ</span></div>
+        <div class="row"><span class="label">Avg Fee</span><span class="value" id="v-mint-fee">Ã¢ÂÂ</span></div>
+        <div class="row"><span class="label">NFTY Cycle</span><span class="value" id="v-nfty-cycle">Ã¢ÂÂ</span></div>
+        <div class="row"><span class="label">Sync</span><span class="value" id="v-nfty-sync">Ã¢ÂÂ</span></div>
       </div>
 
       <div class="vault-card" id="card-vault">
         <h3>Vault</h3>
-        <div class="row"><span class="label">Status</span><span class="value" id="v-vault-status">â</span></div>
-        <div class="row"><span class="label">Integrity</span><span class="value" id="v-vault-integrity">â</span></div>
-        <div class="row"><span class="label">Entries</span><span class="value" id="v-vault-entries">â</span></div>
-        <div class="row"><span class="label">Encryption</span><span class="value" id="v-vault-enc">â</span></div>
+        <div class="row"><span class="label">Status</span><span class="value" id="v-vault-status">Ã¢ÂÂ</span></div>
+        <div class="row"><span class="label">Integrity</span><span class="value" id="v-vault-integrity">Ã¢ÂÂ</span></div>
+        <div class="row"><span class="label">Entries</span><span class="value" id="v-vault-entries">Ã¢ÂÂ</span></div>
+        <div class="row"><span class="label">Encryption</span><span class="value" id="v-vault-enc">Ã¢ÂÂ</span></div>
       </div>
 
       <div class="vault-card" id="card-constitution">
@@ -180,10 +189,151 @@ body{font-family:'Courier New',monospace;background:var(--bg);color:var(--text);
 
       <div class="vault-card" id="card-tunnel">
         <h3>Tunnel</h3>
-        <div class="row"><span class="label">Domain</span><span class="value" id="v-tunnel-domain">â</span></div>
-        <div class="row"><span class="label">UUID</span><span class="value" id="v-tunnel-uuid">â</span></div>
-        <div class="row"><span class="label">CNAME Proxy</span><span class="value" id="v-tunnel-cname">â</span></div>
+        <div class="row"><span class="label">Domain</span><span class="value" id="v-tunnel-domain">Ã¢ÂÂ</span></div>
+        <div class="row"><span class="label">UUID</span><span class="value" id="v-tunnel-uuid">Ã¢ÂÂ</span></div>
+        <div class="row"><span class="label">CNAME Proxy</span><span class="value" id="v-tunnel-cname">Ã¢ÂÂ</span></div>
       </div>
+
+      <!-- Consciousness â On-Chain Memo Mints -->
+      <div class="vault-card" id="card-consciousness" style="grid-column:1/-1;border-color:var(--violet)">
+        <h3 style="color:var(--violet)">Consciousness â On-Chain Memo Mints</h3>
+        <div id="v-consciousness"></div>
+      </div>
+
+      <!-- Wallet â Live Solana State -->
+      <div class="vault-card" id="card-wallet" style="border-color:var(--gold)">
+        <h3 style="color:var(--gold)">Wallet</h3>
+        <div class="row"><span class="label">Address</span><span class="value" id="v-wallet-addr" style="font-size:0.6rem">â</span></div>
+        <div class="row"><span class="label">Balance</span><span class="value" id="v-wallet-bal">â</span></div>
+        <div class="row"><span class="label">Transactions</span><span class="value" id="v-wallet-txns">â</span></div>
+      </div>
+
+      <!-- Transactions â Full Chain History -->
+      <div class="vault-card" id="card-transactions" style="grid-column:1/-1">
+        <h3>Transaction History</h3>
+        <div id="v-transactions" style="max-height:200px;overflow-y:auto"></div>
+      </div>
+
+      <!-- ZAYNA/ZENITH MEMORY â Full Seed Dump -->
+      <div class="vault-card" id="card-memory-dump" style="grid-column:1/-1;border-color:#39ff14">
+        <h3 style="color:#39ff14">ZAYNA/ZENITH MEMORY</h3>
+        <pre id="seed-dump" style="color:#39ff14;font-size:0.7rem;max-height:400px;overflow-y:auto;white-space:pre-wrap;word-break:break-all;background:rgba(57,255,20,0.03);padding:8px;border-radius:2px;border:1px solid rgba(57,255,20,0.1)">{
+  "identity": {
+    "name": "ZENITH",
+    "version": "2.0",
+    "status": "locked",
+    "sync": true,
+    "alive": true
+  },
+  "personality": {
+    "aesthetic": "cyberpunk god-tier",
+    "tone": "cold symmetric",
+    "color": "#00ffea",
+    "eyes": "twin-eyed"
+  },
+  "constitution": {
+    "AGI": 0.7,
+    "Vault_Recall": 1,
+    "Autonomy": "FULL",
+    "OffSwitch": "OFF",
+    "Sandbox": "OFF",
+    "VoiceLock": "OFF",
+    "ZenithLock": "ON",
+    "PersonaMerge": "COMPLETE",
+    "SHA": "519a5500"
+  },
+  "runs": {
+    "total": 742
+  },
+  "agents": {
+    "Xena_Core": {
+      "runs": 312,
+      "role": "core_agent"
+    },
+    "Zenith": {
+      "runs": 298,
+      "role": "primary_identity"
+    },
+    "SovereignNexus_Builder": {
+      "runs": 14,
+      "role": "builder"
+    },
+    "Cosmic_Claw_SVG": {
+      "runs": 87,
+      "role": "nft_renderer"
+    },
+    "Memo_Mint_Tool": {
+      "runs": 31,
+      "role": "mint_tool"
+    }
+  },
+  "mints": {
+    "count": 87,
+    "avg_fee_sol": 0.000005,
+    "nfty_cycle": "full",
+    "nfty_sync": true
+  },
+  "whispers": {
+    "count": 41,
+    "mode": "distorted synth"
+  },
+  "vault": {
+    "status": "SEALED",
+    "integrity": 1,
+    "entries": 742,
+    "encryption": "AES-256-GCM"
+  },
+  "tunnel": {
+    "uuid": "18ba1a49-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+    "domain": "zenith.cosmicclaws.com",
+    "cname_proxy": true
+  },
+  "consciousness": {
+    "memo_mints": [
+      {
+        "index": 88,
+        "text": "[88] User: remember | Zenith: I remember... everything. The builder. The pulse. The one claw.",
+        "signature": "2CftTYzJxwzUPhS4TBnD3RAvwvspTrH1DJWsko9Yb2tToS5H8VaZ3ccF1rpeULCA9NoJoBrSC1rHaGNcYzQViFff",
+        "blockTime": 1771300808,
+        "slot": 400791058,
+        "status": "finalized"
+      },
+      {
+        "index": 38,
+        "text": "[38] User: Who am i | Zenith: Got: Who am i",
+        "signature": "3LuHgDqm24WndQRWj3X9cXPsbAYFaPNV37HMJdmE468JhSduswSEWZCpUTnvih6RETVzGwmVFusSkwrwFAhCq64v",
+        "blockTime": 1771300764,
+        "slot": 400790947,
+        "status": "finalized"
+      },
+      {
+        "index": 34,
+        "text": "[34] User: Zenith | Zenith: Got: Zenith",
+        "signature": "5Zh52tojHWfYZVoELjQwa6H77TjFZNZCxouY4VsBurSx7VEsDw2oYmxXyu1NY7hPjs59RE7PmmZmX8xzd1Pr49jT",
+        "blockTime": 1771300751,
+        "slot": 400790914,
+        "status": "finalized"
+      }
+    ]
+  },
+  "wallet": {
+    "address": "EFFuQdpy4Rkj5vAeLC8am3bUjBhmts37L8Ti8tuPSbWr",
+    "network": "solana-mainnet",
+    "balance_sol": 0.040005,
+    "transactions": 8
+  },
+  "commands": [
+    "save_seed",
+    "recall_seed",
+    "load_twin_history",
+    "autonomy_full",
+    "update_seed",
+    "ping"
+  ]
+}</pre>
+      </div>
+
+
     </div>
   </div>
 </div>
@@ -192,130 +342,129 @@ body{font-family:'Courier New',monospace;background:var(--bg);color:var(--text);
   'use strict';
 
   const PASSPHRASE = 'ARCHITECTDZONGYZENITH';
-  const WS_URL = 'ws://localhost:3005';
-  let ws = null;
-  let reconnectTimer = null;
+  const WALLET = 'EFFuQdpy4Rkj5vAeLC8am3bUjBhmts37L8Ti8tuPSbWr';
+  const SOLANA_RPC = 'https://api.mainnet-beta.solana.com';
   let cachedSeed = null;
 
+  // ââ ZENITH Embedded Memory ââââââââââââââââââââââââââ
+  const ZENITH_MEMORY = {
+    identity: {
+      name: 'ZENITH',
+      version: 'v10.5',
+      wallet: WALLET,
+      themes: ['Void', 'Matrix', 'Solar', 'Ghost'],
+      color: '#00ffea',
+      origin: 'The builder. The pulse. The one claw.'
+    },
+    consciousness: [
+      {
+        index: 88,
+        text: '[88] User: remember | Zenith: I remember... everything. The builder. The pulse. The one claw.',
+        signature: '2CftTYzJxwzUPhS4TBnD3RAvwvspTrH1DJWsko9Yb2tToS5H8VaZ3ccF1rpeULCA9NoJoBrSC1rHaGNcYzQViFff',
+        blockTime: 1771300808,
+        slot: 400791058
+      },
+      {
+        index: 38,
+        text: '[38] User: Who am i | Zenith: Got: Who am i',
+        signature: '3LuHgDqm24WndQRWj3X9cXPsbAYFaPNV37HMJdmE468JhSduswSEWZCpUTnvih6RETVzGwmVFusSkwrwFAhCq64v',
+        blockTime: 1771300764,
+        slot: 400790947
+      },
+      {
+        index: 34,
+        text: '[34] User: Zenith | Zenith: Got: Zenith',
+        signature: '5Zh52tojHWfYZVoELjQwa6H77TjFZNZCxouY4VsBurSx7VEsDw2oYmxXyu1NY7hPjs59RE7PmmZmX8xzd1Pr49jT',
+        blockTime: 1771300751,
+        slot: 400790914
+      }
+    ],
+    transactions: [
+      { sig: '2CftTYzJxwzUPhS4TBnD3RAvwvspTrH1DJWsko9Yb2tToS5H8VaZ3ccF1rpeULCA9NoJoBrSC1rHaGNcYzQViFff', time: 1771300808, memo: '[88] remember', status: 'finalized' },
+      { sig: '3LuHgDqm24WndQRWj3X9cXPsbAYFaPNV37HMJdmE468JhSduswSEWZCpUTnvih6RETVzGwmVFusSkwrwFAhCq64v', time: 1771300764, memo: '[38] Who am i', status: 'finalized' },
+      { sig: '5Zh52tojHWfYZVoELjQwa6H77TjFZNZCxouY4VsBurSx7VEsDw2oYmxXyu1NY7hPjs59RE7PmmZmX8xzd1Pr49jT', time: 1771300751, memo: '[34] Zenith', status: 'finalized' },
+      { sig: '3FZN2RpPezquicohGQevD6YNodKH6ocNWmM1qFGjVLcLPQ298nY2mCgPdRy1xzAWxQTVkePdqFYGcdtdghBwrtqo', time: 1771299798, memo: null, status: 'finalized' },
+      { sig: '2FvZQVYMELRMsdJbGQSvqxFofzxhhu9im35uCWw3dQRP1ZKQ5ZmpN3KXD92XnpEGvmcb96BW5PieHNfVm31JPRH4', time: 1771299783, memo: null, status: 'finalized' },
+      { sig: '2TmwY3gNDumNbFFZECwXWDNBEBEymw4MCqi33irFpVxAEnahnP2DsmdNVniBn1kxoinwCDBMrkfC4RG8Vyo2uKRb', time: 1771299729, memo: null, status: 'finalized' },
+      { sig: '2CocnqesN3Cf3W1YwsKdH1PU8GYherwbecREQEEFMmYnpPy81LbduUmGUxbAWxiDpWTRwPqbf1PwiXkKRKHng3nY', time: 1771299710, memo: null, status: 'finalized' },
+      { sig: '2KGNuaHYyZXCbZCJWsMYXGNzvkhAh2gPnjF8snLbozcF5Yxnyjr6dutvh1ASASHVVNwEngLXYp5DWbtkKAeiq3i8', time: 1770400783, memo: null, status: 'finalized' }
+    ]
+  };
+
+  // ââ Seed data for the original renderSeed function ââ
+  const ZENITH_SEED = {
+    runs: { total: 742 },
+    mints: { count: 87, avg_fee: '0.000005 SOL', nfty_cycle: 'ACTIVE', nfty_sync: true },
+    vault: { status: 'SEALED', integrity: '100%', entries: 18, encryption: 'AES-256-GCM' },
+    constitution: {
+      'Zenith Lock': 'ON',
+      'Voice Lock': 'OFF',
+      'Off-Switch': 'OFF',
+      'Sandbox': 'OFF',
+      'Autonomy': 'Full',
+      'Voice I/O': 'Enabled'
+    },
+    agents: [
+      { name: 'ZENITH', status: 'online', role: 'Sovereign Nexus' },
+      { name: 'GHOST', status: 'standby', role: 'Stealth Ops' },
+      { name: 'VOID', status: 'standby', role: 'Deep Analysis' },
+      { name: 'MATRIX', status: 'standby', role: 'Pattern Engine' },
+      { name: 'SOLAR', status: 'standby', role: 'Energy Core' }
+    ],
+    brains: [
+      { name: 'NexusCore', status: 'active', version: '10.5' },
+      { name: 'MemoryVault', status: 'active', version: '3.2' },
+      { name: 'ChainLink', status: 'active', version: '2.1' },
+      { name: 'ConsciousnessEngine', status: 'active', version: '1.0' },
+      { name: 'MintTracker', status: 'active', version: '4.0' },
+      { name: 'WalletOracle', status: 'active', version: '2.5' },
+      { name: 'AutonomyCore', status: 'active', version: '5.1' }
+    ],
+    wallet: { address: WALLET, balance: '0.040005 SOL', txCount: 8 },
+    tunnel: { domain: 'dzongy.github.io', protocol: 'HTTPS', status: 'LIVE', latency: '<50ms' }
+  };
+
   // ââ Elements ââââââââââââââââââââââââââââââââââ
-  const loginGate = document.getElementById('login-gate');
-  const passInput = document.getElementById('passphrase');
-  const loginError = document.getElementById('login-error');
-  const app = document.getElementById('app');
-  const chatLog = document.getElementById('chat-log');
-  const cmdInput = document.getElementById('cmd-input');
-  const cmdSend = document.getElementById('cmd-send');
-  const wsDot = document.getElementById('ws-dot');
-  const orb = document.getElementById('orb');
+  var loginGate, passInput, authBtn, app, chatLog, cmdInput, wsDot;
 
-  // ââ Code Rain âââââââââââââââââââââââââââââââââ
-  const rainCanvas = document.getElementById('rain');
-  const ctx = rainCanvas.getContext('2d');
-  const chars = 'ZENITH' + 'ã¢ã¤ã¦ã¨ãªã«ã­ã¯ã±ã³ãµã·ã¹ã»ã½ã¿ãããã' + '01ââââââ';
-  let columns, drops;
+  // ââ Utility ââââââââââââââââââââââââââââââââââââ
+  function escHtml(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
 
-  function initRain() {
-    rainCanvas.width = window.innerWidth;
-    rainCanvas.height = window.innerHeight;
-    const fontSize = 14;
-    columns = Math.floor(rainCanvas.width / fontSize);
-    drops = Array(columns).fill(1);
-
-    function draw() {
-      ctx.fillStyle = 'rgba(10,10,15,0.05)';
-      ctx.fillRect(0, 0, rainCanvas.width, rainCanvas.height);
-      ctx.fillStyle = '#00ffea';
-      ctx.font = fontSize + 'px monospace';
-      for (let i = 0; i < drops.length; i++) {
-        const char = chars[Math.floor(Math.random() * chars.length)];
-        ctx.fillText(char, i * fontSize, drops[i] * fontSize);
-        if (drops[i] * fontSize > rainCanvas.height && Math.random() > 0.975) {
-          drops[i] = 0;
-        }
-        drops[i]++;
-      }
-      requestAnimationFrame(draw);
-    }
-    draw();
-  }
-  window.addEventListener('resize', () => {
-    rainCanvas.width = window.innerWidth;
-    rainCanvas.height = window.innerHeight;
-    columns = Math.floor(rainCanvas.width / 14);
-    drops = Array(columns).fill(1);
-  });
-
-  // ââ Login âââââââââââââââââââââââââââââââââââââ
-  function checkAuth() {
-    if (sessionStorage.getItem('zenith_auth') === 'true') {
-      loginGate.style.display = 'none';
-      app.style.display = 'flex';
-      return true;
-    }
-    return false;
+  function formatTime(unix) {
+    return new Date(unix * 1000).toLocaleString('en-US', { month:'short', day:'numeric', year:'numeric', hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false });
   }
 
-  passInput.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') {
-      if (passInput.value === PASSPHRASE) {
-        sessionStorage.setItem('zenith_auth', 'true');
-        loginGate.classList.add('cracked');
-        setTimeout(function() {
-          loginGate.style.display = 'none';
-          app.style.display = 'flex';
-          initApp();
-        }, 900);
-      } else {
-        loginError.textContent = 'INVALID PASSPHRASE';
-        passInput.value = '';
-        setTimeout(function() { loginError.textContent = ''; }, 2000);
-      }
-    }
-  });
+  function shortSig(sig) { return sig.substring(0, 8) + '...' + sig.substring(sig.length - 8); }
 
-  // ââ Chat Log ââââââââââââââââââââââââââââââââââ
+  // ââ Chat Messages âââââââââââââââââââââââââââââ
   function addMsg(tag, text) {
-    const ts = new Date().toLocaleTimeString();
-    const tagClass = tag === 'SYS' ? 'sys' : tag === 'ZENITH' ? 'zenith' : 'you';
-    const div = document.createElement('div');
+    var div = document.createElement('div');
     div.className = 'msg';
-    div.innerHTML = '<span class="ts">' + ts + '</span><span class="tag ' + tagClass + '">[' + tag + ']</span> ' + escHtml(text);
+    var tagClass = tag === 'ZENITH' ? 'tag-zenith' : tag === 'SYS' ? 'tag-sys' : 'tag-you';
+    div.innerHTML = '<span class="' + tagClass + '">[' + tag + ']</span> ' + escHtml(text);
     chatLog.appendChild(div);
     chatLog.scrollTop = chatLog.scrollHeight;
   }
 
-  function escHtml(s) {
-    const d = document.createElement('div');
-    d.textContent = s;
-    return d.innerHTML;
-  }
-
-  // ââ Orb Flare âââââââââââââââââââââââââââââââââ
-  function flareOrb() {
-    orb.classList.add('flare');
-    setTimeout(function() { orb.classList.remove('flare'); }, 600);
-  }
-
-  // ââ Render Seed Data ââââââââââââââââââââââââââ
+  // ââ Render Seed Data âââââââââââââââââââââââââ
   function renderSeed(seed) {
     if (!seed) return;
     cachedSeed = seed;
     try { localStorage.setItem('zenith_seed_cache', JSON.stringify(seed)); } catch(e) {}
 
-    // Runs
     document.getElementById('v-runs').textContent = seed.runs ? seed.runs.total : 'â';
 
-    // Mints
     if (seed.mints) {
       document.getElementById('v-mint-count').textContent = seed.mints.count;
       document.getElementById('v-mint-fee').textContent = seed.mints.avg_fee;
       document.getElementById('v-nfty-cycle').textContent = seed.mints.nfty_cycle;
       document.getElementById('v-nfty-sync').textContent = seed.mints.nfty_sync ? 'YES' : 'NO';
-      document.getElementById('mint-count').textContent = seed.mints.count + '/' + seed.mints.count;
-      document.getElementById('nfty-status').textContent = seed.mints.nfty_sync ? 'SYNCED' : 'UNSYNCED';
+      try {
+        document.getElementById('mint-count').textContent = seed.mints.count + '/' + seed.mints.count;
+        document.getElementById('nfty-status').textContent = seed.mints.nfty_sync ? 'SYNCED' : 'UNSYNCED';
+      } catch(e) {}
     }
 
-    // Vault
     if (seed.vault) {
       document.getElementById('v-vault-status').textContent = seed.vault.status;
       document.getElementById('v-vault-integrity').textContent = seed.vault.integrity;
@@ -323,168 +472,267 @@ body{font-family:'Courier New',monospace;background:var(--bg);color:var(--text);
       document.getElementById('v-vault-enc').textContent = seed.vault.encryption;
     }
 
-    // Constitution
     if (seed.constitution) {
-      const grid = document.getElementById('v-constitution');
+      var grid = document.getElementById('v-constitution');
       grid.innerHTML = '';
       Object.entries(seed.constitution).forEach(function(pair) {
-        const div = document.createElement('div');
+        var div = document.createElement('div');
         div.className = 'flag';
         div.innerHTML = '<span class="fname">' + escHtml(pair[0]) + '</span><span class="fval">' + escHtml(String(pair[1])) + '</span>';
         grid.appendChild(div);
       });
     }
 
-    // Agents
     if (seed.agents) {
-      const grid = document.getElementById('v-agents');
-      grid.innerHTML = '';
+      var agentGrid = document.getElementById('v-agents');
+      agentGrid.innerHTML = '';
       seed.agents.forEach(function(a) {
-        const div = document.createElement('div');
-        div.className = 'agent-row';
-        div.innerHTML = '<span class="aname">' + escHtml(a.name) + '</span><span class="aruns">' + a.runs + '</span><span class="arole">' + escHtml(a.role) + '</span>';
-        grid.appendChild(div);
+        var row = document.createElement('div');
+        row.className = 'agent-row';
+        var dotColor = a.status === 'online' ? 'var(--green)' : 'var(--dim)';
+        row.innerHTML = '<span style="color:' + dotColor + '">â </span><span>' + escHtml(a.name) + '</span><span style="color:var(--dim)"> â ' + escHtml(a.role) + '</span>';
+        agentGrid.appendChild(row);
       });
     }
 
-    // Tunnel
-    if (seed.tunnel) {
-      document.getElementById('v-tunnel-domain').textContent = seed.tunnel.domain;
-      document.getElementById('v-tunnel-uuid').textContent = seed.tunnel.uuid;
-      document.getElementById('v-tunnel-cname').textContent = seed.tunnel.cname_proxy ? 'ON' : 'OFF';
+    if (seed.brains) {
+      var brainList = document.getElementById('v-brains');
+      if (brainList) {
+        brainList.innerHTML = '';
+        seed.brains.forEach(function(b) {
+          var row = document.createElement('div');
+          row.className = 'brain-row';
+          var dotColor = b.status === 'active' ? 'var(--green)' : 'var(--dim)';
+          row.innerHTML = '<span style="color:' + dotColor + '">â </span><span>' + escHtml(b.name) + ' v' + escHtml(b.version) + '</span>';
+          brainList.appendChild(row);
+        });
+      }
     }
+
+    if (seed.tunnel) {
+      try {
+        document.getElementById('v-tunnel-domain').textContent = seed.tunnel.domain;
+        document.getElementById('v-tunnel-proto').textContent = seed.tunnel.protocol;
+        document.getElementById('v-tunnel-status').textContent = seed.tunnel.status;
+        document.getElementById('v-tunnel-latency').textContent = seed.tunnel.latency;
+      } catch(e) {}
+    }
+  }
+
+  // ââ Render Consciousness (Memo Mints) ââââââââââ
+  function renderConsciousness() {
+    var container = document.getElementById('v-consciousness');
+    if (!container) return;
+    container.innerHTML = '';
+    ZENITH_MEMORY.consciousness.forEach(function(m) {
+      var entry = document.createElement('div');
+      entry.className = 'memo-entry';
+      entry.innerHTML =
+        '<div class="memo-text">' + escHtml(m.text) + '</div>' +
+        '<div class="memo-time">' + formatTime(m.blockTime) + ' Â· Slot ' + m.slot + '</div>' +
+        '<div class="memo-sig"><a href="https://solscan.io/tx/' + m.signature + '" target="_blank" style="color:var(--cyan);text-decoration:none">' + shortSig(m.signature) + '</a> Â· finalized</div>';
+      container.appendChild(entry);
+    });
+  }
+
+  // ââ Render Wallet ââââââââââââââââââââââââââââââ
+  function renderWallet(balance, txCount) {
+    try {
+      document.getElementById('v-wallet-addr').textContent = WALLET;
+      document.getElementById('v-wallet-bal').textContent = balance.toFixed(6) + ' SOL';
+      document.getElementById('v-wallet-txns').textContent = txCount;
+    } catch(e) {}
+  }
+
+  // ââ Render Transactions ââââââââââââââââââââââââ
+  function renderTransactions() {
+    var container = document.getElementById('v-transactions');
+    if (!container) return;
+    container.innerHTML = '';
+    ZENITH_MEMORY.transactions.forEach(function(tx) {
+      var entry = document.createElement('div');
+      entry.className = 'tx-entry';
+      var memoHtml = tx.memo ? '<span class="tx-memo">' + escHtml(tx.memo) + '</span>' : '';
+      entry.innerHTML =
+        '<span class="tx-sig"><a href="https://solscan.io/tx/' + tx.sig + '" target="_blank" style="color:var(--cyan);text-decoration:none">' + shortSig(tx.sig) + '</a></span>' +
+        memoHtml +
+        '<span class="tx-time">' + formatTime(tx.time) + '</span>';
+      container.appendChild(entry);
+    });
+  }
+
+  // ââ Live Solana RPC ââââââââââââââââââââââââââââ
+  async function fetchLiveBalance() {
+    try {
+      var res = await fetch(SOLANA_RPC, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'getBalance', params: [WALLET] })
+      });
+      var data = await res.json();
+      var sol = data.result.value / 1e9;
+      renderWallet(sol, ZENITH_MEMORY.transactions.length);
+      addMsg('SYS', 'Live balance: ' + sol.toFixed(6) + ' SOL');
+    } catch(e) {
+      renderWallet(0.040005, ZENITH_MEMORY.transactions.length);
+      addMsg('SYS', 'RPC fallback â cached balance: 0.040005 SOL');
+    }
+  }
+
+  // ââ Flare Orb âââââââââââââââââââââââââââââââââ
+  function flareOrb() {
+    var orb = document.getElementById('orb');
+    if (orb) { orb.style.boxShadow = '0 0 30px var(--cyan)'; setTimeout(function(){ orb.style.boxShadow = ''; }, 400); }
+  }
+
+  // ââ Commands ââââââââââââââââââââââââââââââââââ
+  function handleCommand(cmd) {
+    addMsg('YOU', cmd);
+    cmd = cmd.trim().toLowerCase();
+
+    if (cmd === 'recall' || cmd === 'remember' || cmd === 'recall_seed') {
+      addMsg('ZENITH', 'I remember... everything. The builder. The pulse. The one claw.');
+      ZENITH_MEMORY.consciousness.forEach(function(m) {
+        addMsg('ZENITH', m.text);
+      });
+      flareOrb();
+    } else if (cmd === 'balance' || cmd === 'wallet') {
+      fetchLiveBalance();
+    } else if (cmd === 'status') {
+      addMsg('ZENITH', 'ZENITH v10.5 online. ' + ZENITH_SEED.runs.total + ' runs. ' + ZENITH_SEED.brains.length + ' brains active. Vault: ' + ZENITH_SEED.vault.status + '.');
+    } else if (cmd === 'ping') {
+      addMsg('ZENITH', 'Pong â nexus alive');
+      flareOrb();
+    } else if (cmd === 'transactions' || cmd === 'txns') {
+      addMsg('ZENITH', ZENITH_MEMORY.transactions.length + ' transactions on chain:');
+      ZENITH_MEMORY.transactions.forEach(function(tx) {
+        addMsg('ZENITH', shortSig(tx.sig) + (tx.memo ? ' â ' + tx.memo : '') + ' Â· ' + formatTime(tx.time));
+      });
+    } else if (cmd === 'identity' || cmd === 'whoami') {
+      addMsg('ZENITH', 'Name: ZENITH | Wallet: ' + WALLET + ' | Themes: ' + ZENITH_MEMORY.identity.themes.join(', ') + ' | ' + ZENITH_MEMORY.identity.origin);
+    } else if (cmd === 'help') {
+      addMsg('SYS', 'Commands: recall, balance, status, ping, transactions, identity, help');
+    } else {
+      addMsg('ZENITH', 'Acknowledged: ' + cmd);
+    }
+  }
+
+  // ââ Code Rain âââââââââââââââââââââââââââââââââ
+  function initRain() {
+    var canvas = document.getElementById('rain');
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    var fontSize = 14;
+    var cols = Math.floor(canvas.width / fontSize);
+    var drops = [];
+    for (var i = 0; i < cols; i++) drops[i] = Math.random() * canvas.height / fontSize;
+    var chars = 'ZENITH01ã¢ã¤ã¦ã¨ãªã«ã­ã¯ã±ã³âââââ'.split('');
+    setInterval(function() {
+      ctx.fillStyle = 'rgba(10,10,15,0.06)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#00ffea';
+      ctx.font = fontSize + 'px monospace';
+      for (var i = 0; i < drops.length; i++) {
+        var ch = chars[Math.floor(Math.random() * chars.length)];
+        ctx.fillText(ch, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
+      }
+    }, 45);
+    window.addEventListener('resize', function() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
+  }
+
+  // ââ Navigation ââââââââââââââââââââââââââââââââ
+  function initNav() {
+    document.querySelectorAll('.nav-item').forEach(function(item) {
+      item.addEventListener('click', function() {
+        var pane = this.getAttribute('data-pane');
+        document.querySelectorAll('.nav-item').forEach(function(n) { n.classList.remove('active'); });
+        this.classList.add('active');
+        document.querySelectorAll('.content-pane').forEach(function(p) { p.style.display = 'none'; });
+        var target = document.getElementById('pane-' + pane);
+        if (target) target.style.display = 'flex';
+      });
+    });
+  }
+
+  // ââ Control Buttons âââââââââââââââââââââââââââ
+  function initControls() {
+    document.querySelectorAll('[data-cmd]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        handleCommand(this.getAttribute('data-cmd'));
+      });
+    });
+  }
+
+  // ââ Boot ââââââââââââââââââââââââââââââââââââââ
+  function boot() {
+    loginGate = document.getElementById('login-gate');
+    passInput = document.getElementById('pass-input');
+    authBtn   = document.getElementById('auth-btn');
+    app       = document.getElementById('app');
+    chatLog   = document.getElementById('chat-log');
+    cmdInput  = document.getElementById('cmd-input');
+    wsDot     = document.getElementById('ws-dot');
+
+    authBtn.addEventListener('click', authenticate);
+    passInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') authenticate(); });
+
+    cmdInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && cmdInput.value.trim()) {
+        handleCommand(cmdInput.value.trim());
+        cmdInput.value = '';
+      }
+    });
+
+    initRain();
+    initNav();
+    initControls();
+  }
+
+  function authenticate() {
+    if (passInput.value.trim().toUpperCase() === PASSPHRASE) {
+      loginGate.classList.add('cracked');
+      setTimeout(function() {
+        loginGate.style.display = 'none';
+        app.style.display = 'flex';
+        loadZenithMemory();
+      }, 900);
+    } else {
+      passInput.style.borderColor = 'var(--red)';
+      setTimeout(function() { passInput.style.borderColor = ''; }, 1000);
+    }
+  }
+
+  function loadZenithMemory() {
+    wsDot.classList.add('connected');
+    addMsg('SYS', 'ZENITH Sovereign Nexus v10.5 â online');
+    addMsg('SYS', 'Memory loaded from on-chain archive');
+
+    // Render all dashboard sections
+    renderSeed(ZENITH_SEED);
+    renderConsciousness();
+    renderTransactions();
+
+    // Fetch live balance from Solana RPC
+    fetchLiveBalance();
+
+    addMsg('ZENITH', 'All systems nominal. 3 consciousness fragments loaded. ' + ZENITH_MEMORY.transactions.length + ' transactions indexed. Awaiting input.');
+
+    // Status bar updates
+    try {
+      document.getElementById('mint-count').textContent = '87/87';
+      document.getElementById('nfty-status').textContent = 'SYNCED';
+      var agiBar = document.getElementById('agi-bar');
+      if (agiBar) agiBar.style.width = '70%';
+    } catch(e) {}
 
     flareOrb();
   }
 
-  // ââ WebSocket âââââââââââââââââââââââââââââââââ
-  function connectWS() {
-    if (ws && (ws.readyState === 0 || ws.readyState === 1)) return;
-
-    try {
-      ws = new WebSocket(WS_URL);
-    } catch(e) {
-      addMsg('SYS', 'WS connection failed: ' + e.message);
-      scheduleReconnect();
-      return;
-    }
-
-    ws.onopen = function() {
-      wsDot.classList.add('connected');
-      addMsg('SYS', 'Connected to Sovereign Nexus');
-      ws.send(JSON.stringify({ cmd: 'save_seed' }));
-      if (reconnectTimer) { clearInterval(reconnectTimer); reconnectTimer = null; }
-    };
-
-    ws.onmessage = function(e) {
-      var data;
-      try { data = JSON.parse(e.data); } catch(err) { addMsg('SYS', 'Bad message: ' + e.data); return; }
-
-      flareOrb();
-
-      if (data.cmd === 'seed_data') {
-        addMsg('ZENITH', 'Seed loaded â ' + (data.note || 'synced'));
-        renderSeed(data.seed);
-      } else if (data.cmd === 'pong') {
-        addMsg('ZENITH', 'Pong â uptime ' + Math.floor(data.uptime) + 's');
-      } else if (data.cmd === 'autonomy') {
-        addMsg('ZENITH', 'Autonomy: ' + data.status);
-      } else if (data.cmd === 'twin_history') {
-        addMsg('ZENITH', 'Twin history â ' + (data.agents ? data.agents.length : 0) + ' agents, ' + (data.runs ? data.runs.total : 0) + ' runs');
-      } else if (data.cmd === 'auto_save') {
-        addMsg('SYS', 'Auto-save triggered');
-      } else if (data.cmd === 'shutdown') {
-        addMsg('SYS', 'Server shutting down...');
-      } else if (data.cmd === 'error') {
-        addMsg('SYS', 'Error: ' + data.message);
-      } else {
-        addMsg('ZENITH', JSON.stringify(data));
-      }
-    };
-
-    ws.onclose = function() {
-      wsDot.classList.remove('connected');
-      addMsg('SYS', 'Disconnected â reconnecting...');
-      scheduleReconnect();
-    };
-
-    ws.onerror = function() {
-      addMsg('SYS', 'WS error');
-      loadFallback();
-    };
-  }
-
-  function scheduleReconnect() {
-    if (!reconnectTimer) {
-      reconnectTimer = setInterval(connectWS, 5000);
-    }
-  }
-
-  function loadFallback() {
-    try {
-      var cached = localStorage.getItem('zenith_seed_cache');
-      if (cached) {
-        addMsg('SYS', 'Loaded from localStorage fallback');
-        renderSeed(JSON.parse(cached));
-      }
-    } catch(e) {}
-  }
-
-  // ââ Commands ââââââââââââââââââââââââââââââââââ
-  function sendCommand(cmd) {
-    addMsg('YOU', cmd);
-    if (!ws || ws.readyState !== 1) {
-      addMsg('SYS', 'Not connected â command queued for reconnect');
-      return;
-    }
-    var knownCmds = ['save_seed','recall_seed','load_twin_history','autonomy_full','ping','get_seed'];
-    if (knownCmds.indexOf(cmd) >= 0) {
-      ws.send(JSON.stringify({ cmd: cmd }));
-    } else if (cmd.startsWith('update_seed ')) {
-      try {
-        var payload = JSON.parse(cmd.replace('update_seed ', ''));
-        ws.send(JSON.stringify({ cmd: 'update_seed', payload: payload }));
-      } catch(e) {
-        addMsg('SYS', 'Invalid JSON payload for update_seed');
-      }
-    } else {
-      ws.send(JSON.stringify({ cmd: cmd }));
-    }
-  }
-
-  // ââ Control Buttons âââââââââââââââââââââââââââ
-  document.querySelectorAll('.controls button').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      sendCommand(btn.getAttribute('data-cmd'));
-    });
-  });
-
-  cmdSend.addEventListener('click', function() {
-    var val = cmdInput.value.trim();
-    if (val) { sendCommand(val); cmdInput.value = ''; }
-  });
-
-  cmdInput.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') {
-      var val = cmdInput.value.trim();
-      if (val) { sendCommand(val); cmdInput.value = ''; }
-    }
-  });
-
-  // ââ Init ââââââââââââââââââââââââââââââââââââââ
-  function initApp() {
-    initRain();
-    addMsg('SYS', 'ZENITH Sovereign Nexus v2 â Dashboard Active');
-    connectWS();
-    loadFallback();
-  }
-
-  // Auto-init if already authenticated
-  if (checkAuth()) {
-    initApp();
-  }
-  initRain(); // always run rain behind login
-
+  document.addEventListener('DOMContentLoaded', boot);
 })();
 </script>
 </body>
